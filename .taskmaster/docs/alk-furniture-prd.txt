@@ -1,0 +1,309 @@
+# a-el-key Furniture Marketing Website - Product Requirements Document
+
+## Project Overview
+
+**Project Name:** a-el-key Furniture Marketing Website  
+**Domain:** https://www.a-el-key.com/  
+**Target Market:** Bulgarian furniture market, local customers in Sofia region  
+**Business Type:** Custom furniture workshop (1-man operation)  
+**Location:** Нови Искър, near Sofia, Bulgaria  
+
+## Business Context
+
+a-el-key is a custom furniture workshop run by a single craftsman in his private workshop. The business focuses on creating high-quality, custom furniture pieces for residential spaces. The website serves as a marketing tool to showcase the craftsman's work, attract potential customers, and establish credibility in the local market.
+
+## Target Audience
+
+### Primary Audience
+- **Homeowners in Sofia region** (ages 25-60)
+- **Interior design enthusiasts** looking for custom pieces
+- **People renovating homes** who need quality furniture
+- **Budget-conscious customers** seeking value for money
+
+### Secondary Audience
+- **Interior designers** looking for custom furniture partners
+- **Real estate developers** needing furniture for properties
+- **Small business owners** requiring custom office furniture
+
+## Core Features & Requirements
+
+### 1. Hero Section with Image Carousel
+**Priority:** High  
+**Description:** Eye-catching hero section with page-flip animation showcasing the best furniture pieces
+
+**Requirements:**
+- Smooth page-flip animation between images
+- 5-7 high-quality images of signature furniture pieces
+- Responsive design for all devices
+- Auto-advance with manual navigation controls
+- Loading optimization for large images
+- Accessibility features (keyboard navigation, screen reader support)
+
+**Technical Specifications:**
+- Use CSS transforms and transitions for smooth animations
+- Implement lazy loading for images
+- Support for both touch and mouse interactions
+- Fallback for users with reduced motion preferences
+
+### 2. Featured Creations Section
+**Priority:** High  
+**Description:** Curated showcase of 3-4 exceptional furniture pieces with descriptions
+
+**Requirements:**
+- Large, high-quality images with hover effects
+- Brief descriptions highlighting craftsmanship and materials
+- "View in Gallery" call-to-action buttons
+- Responsive grid layout (1 column mobile, 2-3 columns desktop)
+- Smooth scroll animations on viewport entry
+
+**Content Structure:**
+- Image
+- Title (Bulgarian)
+- Brief description (2-3 sentences)
+- Materials used
+- Special features/techniques
+
+### 3. Gallery Page with Categories
+**Priority:** High  
+**Description:** Comprehensive gallery organized by room types and furniture categories
+
+**Categories:**
+- Антре (Entrance/Hallway)
+- Гардероб (Wardrobe)
+- Детска стая (Children's Room)
+- Кухня (Kitchen)
+- Спалня (Bedroom)
+- Тоалетка (Dressing Table)
+- Шкаф (Cabinet)
+
+**Requirements:**
+- Category-based filtering system
+- Lightbox/modal view for detailed image viewing
+- Infinite scroll for large image sets
+- Image metadata display (dimensions, materials, year created)
+- Social sharing capabilities
+- Search functionality within gallery
+- Mobile-optimized touch interactions
+
+**Technical Implementation:**
+- Use UploadThing for image management
+- Implement client-side filtering with URL state management
+- Optimize images with Next.js Image component
+- Implement virtual scrolling for performance
+
+### 4. Contact Page
+**Priority:** High  
+**Description:** Multiple ways for potential customers to get in touch
+
+**Requirements:**
+- Contact form with validation
+- Workshop address and location map
+- Phone number and email
+- Business hours
+- Response time expectations
+- Social media links (if applicable)
+- Viber integration for quick contact
+
+**Form Fields:**
+- Name (required)
+- Email (required)
+- Phone (optional)
+- Project type (dropdown: Антре, Гардероб, Детска стая, Кухня, Спалня, Тоалетка, Шкаф)
+- Budget range (dropdown)
+- Message/Description (required)
+- Preferred contact method
+
+### 5. FAQ Page
+**Priority:** Medium  
+**Description:** Address common customer questions and concerns
+
+**Categories:**
+- Pricing and Quotes
+- Timeline and Process
+- Materials and Quality
+- Delivery and Installation
+- Customization Options
+- Maintenance and Care
+
+**Requirements:**
+- Expandable/collapsible FAQ items
+- Search functionality within FAQs
+- Contact form integration for unanswered questions
+- Mobile-friendly accordion interface
+
+### 6. SEO Optimization
+**Priority:** High  
+**Description:** Ensure the website ranks well in Bulgarian search results
+
+**Requirements:**
+- Bulgarian language optimization
+- Local SEO for Sofia region
+- Meta tags and structured data
+- Image alt text in Bulgarian
+- Fast loading times (Core Web Vitals)
+- Mobile-first responsive design
+- XML sitemap generation
+- Google Analytics integration
+
+**SEO Keywords (Bulgarian):**
+- мебели по поръчка София
+- дървени мебели
+- кухненски мебели
+- спални мебели
+- майстор мебелист
+- ръчно изработени мебели
+
+## Technical Architecture
+
+### Technology Stack
+- **Framework:** Next.js 15 with App Router
+- **Styling:** TailwindCSS 4.0
+- **Image Management:** UploadThing
+- **Hosting:** Vercel
+- **Language:** TypeScript
+- **Package Manager:** pnpm
+
+### Color Scheme
+- **Primary Color:** Dark Blue (#003C70)
+- **Accent Color:** Green (#5EB665)
+- **Usage:** Dark blue for primary elements (headers, navigation, buttons), green for accents (call-to-action buttons, highlights, hover states)
+
+### Performance Requirements
+- **Lighthouse Score:** 90+ across all metrics
+- **First Contentful Paint:** < 1.5s
+- **Largest Contentful Paint:** < 2.5s
+- **Cumulative Layout Shift:** < 0.1
+- **First Input Delay:** < 100ms
+
+### Browser Support
+- Chrome 90+
+- Firefox 88+
+- Safari 14+
+- Edge 90+
+- Mobile browsers (iOS Safari, Chrome Mobile)
+
+## Content Strategy
+
+### Image Requirements
+- **Hero Carousel:** 5-7 images, 1920x1080px minimum
+- **Featured Creations:** 3-4 images, 1200x800px minimum
+- **Gallery:** 50+ images, various sizes, high resolution
+- **Format:** WebP with JPEG fallback
+- **Compression:** Optimized for web without quality loss
+
+### Content Guidelines
+- All text in Bulgarian language
+- Professional, warm, and approachable tone
+- Focus on craftsmanship and quality
+- Include local references (Sofia, Bulgaria)
+- Emphasize custom solutions and personal service
+
+## User Experience (UX) Requirements
+
+### Navigation
+- Simple, intuitive menu structure
+- Breadcrumb navigation for gallery categories
+- Mobile hamburger menu
+- Sticky header with logo
+
+### Accessibility
+- WCAG 2.1 AA compliance
+- Keyboard navigation support
+- Screen reader compatibility
+- High contrast mode support
+- Alt text for all images
+
+### Mobile Experience
+- Touch-friendly interface
+- Optimized image loading
+- Swipe gestures for carousel
+- Responsive typography
+- Fast tap targets (44px minimum)
+
+## Success Metrics
+
+### Primary KPIs
+- **Contact Form Submissions:** 5+ per month
+- **Gallery Page Views:** 200+ per month
+- **Average Session Duration:** 2+ minutes
+- **Bounce Rate:** < 60%
+
+### Secondary KPIs
+- **Mobile Traffic:** 60%+ of total traffic
+- **Local Search Visibility:** Top 3 for target keywords
+- **Page Load Speed:** < 3 seconds on 3G
+- **Image Gallery Engagement:** 30+ seconds average
+
+## Implementation Phases
+
+### Phase 1: Foundation (Week 1-2)
+- Set up UploadThing integration
+- Create basic page structure
+- Implement hero carousel with animations
+- Set up SEO foundation
+
+### Phase 2: Core Features (Week 3-4)
+- Build gallery with category filtering
+- Create contact form with validation
+- Implement featured creations section
+- Add responsive design optimizations
+
+### Phase 3: Enhancement (Week 5-6)
+- Add FAQ page
+- Implement advanced gallery features
+- Optimize performance and SEO
+- Add analytics and tracking
+
+### Phase 4: Launch Preparation (Week 7-8)
+- Content population and optimization
+- Final testing and bug fixes
+- Performance optimization
+- Launch and monitoring setup
+
+## Risk Mitigation
+
+### Technical Risks
+- **Image Loading Performance:** Implement progressive loading and WebP optimization
+- **Mobile Performance:** Use Next.js Image component and lazy loading
+- **SEO Issues:** Implement proper meta tags and structured data from start
+
+### Content Risks
+- **Image Quality:** Establish clear guidelines for photo requirements
+- **Content Translation:** Ensure all Bulgarian text is professionally written
+- **Update Process:** Create clear workflow for content updates via UploadThing
+
+## Future Enhancements (Post-Launch)
+
+### Phase 2 Features
+- Customer testimonials section
+- Before/after project showcases
+- Blog for furniture care tips
+- Virtual consultation booking system
+- Social media integration
+
+### Advanced Features
+- 3D furniture visualization
+- Augmented reality preview
+- Online quote calculator
+- Customer portal for project tracking
+- Multi-language support (English)
+
+## Budget Considerations
+
+### Development Costs
+- UploadThing subscription for image management
+- Vercel hosting (likely free tier sufficient)
+- Domain and SSL (already owned)
+- Stock photography (if needed)
+
+### Ongoing Costs
+- Hosting and domain renewal
+- UploadThing storage and bandwidth
+- Analytics and monitoring tools
+- Content updates and maintenance
+
+## Conclusion
+
+This PRD outlines a comprehensive marketing website for a-el-key furniture that will effectively showcase the craftsman's work, attract local customers, and establish a strong online presence. The focus on performance, SEO, and user experience will ensure the website serves as an effective marketing tool for the business.
+
+The modular approach allows for phased implementation while maintaining high quality standards. The emphasis on Bulgarian language optimization and local SEO will help the business reach its target market effectively.

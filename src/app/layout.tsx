@@ -4,8 +4,9 @@ import { type Metadata } from "next";
 import { Geist } from "next/font/google";
 
 export const metadata: Metadata = {
-  title: "ALK - Очаквайте ни скоро",
-  description: "ALK - Очаквайте ни скоро. Нещо голямо идва...",
+  title: "a-el-key - Очаквайте ни скоро",
+  description:
+    "a-el-key - Ръчно изработени мебели по поръчка в София. Очаквайте ни скоро с нещо изключително.",
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
