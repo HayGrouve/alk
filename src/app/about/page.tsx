@@ -36,10 +36,7 @@ export default function AboutPage() {
       {/* Breadcrumb Navigation */}
       <div className="mb-8">
         <Breadcrumb
-          items={[
-            { name: "Начало", href: "/", current: false },
-            { name: "За нас", href: "/about", current: true },
-          ]}
+          items={[{ name: "За нас", href: "/about", current: true }]}
         />
       </div>
 

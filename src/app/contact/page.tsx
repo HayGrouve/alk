@@ -34,10 +34,7 @@ export default function ContactPage() {
       {/* Breadcrumb Navigation */}
       <div className="mb-8">
         <Breadcrumb
-          items={[
-            { name: "Начало", href: "/", current: false },
-            { name: "Контакти", href: "/contact", current: true },
-          ]}
+          items={[{ name: "Контакти", href: "/contact", current: true }]}
         />
       </div>
 

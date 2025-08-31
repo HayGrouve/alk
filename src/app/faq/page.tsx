@@ -25,15 +25,15 @@ export default function FAQPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
       />
 
-      {/* Breadcrumb */}
-      <div className="border-b border-gray-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
+      <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
+        {/* Breadcrumb Navigation */}
+        <div className="mb-8">
           <FaqBreadcrumb />
         </div>
-      </div>
 
-      {/* FAQ Page Content */}
-      <FaqPage />
+        {/* FAQ Page Content */}
+        <FaqPage />
+      </div>
     </>
   );
 }

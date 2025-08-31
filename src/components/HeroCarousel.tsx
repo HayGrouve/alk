@@ -6,42 +6,35 @@ import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
-// Placeholder images for the carousel
+// Dynamic carousel images based on existing files in /public/images/hero/
 const carouselImages = [
   {
     id: 1,
-    src: "/images/hero/kitchen-1.svg",
+    src: "/images/hero/kitchen.jpg",
     alt: "Модерна кухня с висококачествени материали",
     title: "Модерни кухни",
     description: "Създаваме кухни, които отговарят на вашите нужди и стил",
   },
   {
     id: 2,
-    src: "/images/hero/wardrobe-1.svg",
+    src: "/images/hero/wardrobe.jpg",
     alt: "Елегантен гардероб с интелигентно съхранение",
     title: "Гардероби",
-    description: "Максимално използване на пространството с стилен дизайн",
+    description: "Максимално използване на пространството със стилен дизайн",
   },
   {
     id: 3,
-    src: "/images/hero/living-room-1.svg",
-    alt: "Уютна всекидневна с персонализиран дизайн",
-    title: "Всекидневни",
-    description: "Създаваме пространства за отдих и забавление",
-  },
-  {
-    id: 4,
-    src: "/images/hero/bedroom-1.svg",
+    src: "/images/hero/bedroom.jpg",
     alt: "Спалня с комфорт и елегантност",
     title: "Спални",
     description: "Персонализирани спални за най-добър отдих",
   },
   {
-    id: 5,
-    src: "/images/hero/office-1.svg",
-    alt: "Функционален офис с модерен дизайн",
-    title: "Офис мебели",
-    description: "Създаваме продуктивни работни пространства",
+    id: 4,
+    src: "/images/hero/kids-room.jpg",
+    alt: "Детска стая с игриво и функционално оформление",
+    title: "Детски стаи",
+    description: "Създаваме вдъхновяващи пространства за най-малките",
   },
 ];
 

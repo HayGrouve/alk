@@ -69,10 +69,10 @@ export function Footer() {
               </p>
               <p>
                 <a
-                  href="mailto:info@a-el-key.com"
+                  href="mailto:kakrinski@abv.bg"
                   className="transition-colors hover:text-white"
                 >
-                  info@a-el-key.com
+                  kakrinski@abv.bg
                 </a>
               </p>
             </div>
