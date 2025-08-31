@@ -1,8 +1,19 @@
 import { ConvexHttpClient } from "convex/browser";
 import { api } from "../../convex/_generated/api";
 
-// Initialize Convex client for server-side use
-const convex = new ConvexHttpClient(process.env.NEXT_PUBLIC_CONVEX_URL!);
+// Lazy initialization of Convex client for server-side use
+let convex: ConvexHttpClient | null = null;
+
+function getConvexClient(): ConvexHttpClient {
+  if (!convex) {
+    const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
+    if (!convexUrl) {
+      throw new Error("NEXT_PUBLIC_CONVEX_URL environment variable is not set");
+    }
+    convex = new ConvexHttpClient(convexUrl);
+  }
+  return convex;
+}
 
 // Type-safe wrapper for storing image metadata
 export async function storeImageMetadata(data: {
@@ -19,8 +30,9 @@ export async function storeImageMetadata(data: {
   isFeatured?: boolean;
 }): Promise<string | null> {
   try {
+    const convexClient = getConvexClient();
     // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
-    const imageId = await (convex as any).mutation(
+    const imageId = await (convexClient as any).mutation(
       // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
       (api as any).images.storeImageMetadata,
       data,
