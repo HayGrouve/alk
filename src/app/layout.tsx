@@ -2,6 +2,8 @@ import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 export const metadata: Metadata = {
   title: "a-el-key - Очаквайте ни скоро",
@@ -20,7 +22,20 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="bg" className={`${geist.variable}`}>
-      <body>{children}</body>
+      <body className="flex min-h-screen flex-col">
+        {/* Skip Navigation Link */}
+        <a
+          href="#main-content"
+          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-[#003C70] focus:px-4 focus:py-2 focus:text-white focus:ring-2 focus:ring-white focus:outline-none"
+        >
+          Прескочи до основното съдържание
+        </a>
+        <Header />
+        <main id="main-content" className="flex-1">
+          {children}
+        </main>
+        <Footer />
+      </body>
     </html>
   );
 }

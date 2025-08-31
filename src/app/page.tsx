@@ -11,8 +11,8 @@ export default function HomePage() {
   }, []);
 
   return (
-    <main
-      className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden text-white"
+    <div
+      className="relative flex min-h-[calc(100vh-8rem)] flex-col items-center justify-center overflow-hidden text-white"
       style={{ backgroundColor: "#003C70" }}
     >
       {/* Subtle background pattern */}
@@ -95,11 +95,6 @@ export default function HomePage() {
           </div>
         </div>
       </div>
-
-      {/* Footer */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 transform text-xs text-gray-500">
-        © 2024 a-el-key. Всички права запазени.
-      </div>
-    </main>
+    </div>
   );
 }
