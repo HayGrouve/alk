@@ -59,7 +59,7 @@ export function Header() {
           <div className="md:hidden">
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-[#003C70] focus:ring-2 focus:ring-[#003C70] focus:outline-none focus:ring-inset"
+              className="inline-flex cursor-pointer items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-[#003C70] focus:ring-2 focus:ring-[#003C70] focus:outline-none focus:ring-inset"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <span className="sr-only">Отвори главното меню</span>
@@ -127,7 +127,7 @@ export function Header() {
                       <div className="absolute top-0 left-0 -ml-8 flex pt-4 pr-2 sm:-ml-10 sm:pr-4">
                         <button
                           type="button"
-                          className="relative rounded-md text-gray-300 hover:text-white focus:ring-2 focus:ring-white focus:outline-none"
+                          className="relative cursor-pointer rounded-md text-gray-300 hover:text-white focus:ring-2 focus:ring-white focus:outline-none"
                           onClick={() => setIsMobileMenuOpen(false)}
                         >
                           <span className="absolute -inset-2.5" />

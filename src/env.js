@@ -8,6 +8,10 @@ export const env = createEnv({
    */
   server: {
     NODE_ENV: z.enum(["development", "test", "production"]),
+    JWT_SECRET: z
+      .string()
+      .min(32, "JWT secret must be at least 32 characters long")
+      .optional(),
   },
 
   /**
@@ -25,6 +29,9 @@ export const env = createEnv({
    */
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
+    JWT_SECRET:
+      process.env.JWT_SECRET ||
+      "default-jwt-secret-for-development-only-change-in-production",
     // NEXT_PUBLIC_CLIENTVAR: process.env.NEXT_PUBLIC_CLIENTVAR,
   },
   /**

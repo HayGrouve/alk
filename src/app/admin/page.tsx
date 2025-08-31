@@ -4,6 +4,8 @@ import { useState, Suspense } from "react";
 import Image from "next/image";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { MonitoringDashboard } from "@/components/MonitoringDashboard";
+import { ProtectedRoute } from "@/components/ProtectedRoute";
+import { useAuth } from "@/contexts/AuthContext";
 import dynamic from "next/dynamic";
 import type { Doc } from "../../../convex/_generated/dataModel";
 
@@ -67,10 +69,11 @@ const ImageMetadataEditor = dynamic(
   },
 );
 
-export default function AdminPage() {
+function AdminPageContent() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
   const [editingImage, setEditingImage] = useState<Doc<"images"> | null>(null);
+  const { user, logout } = useAuth();
 
   const handleUploadComplete = (url: string) => {
     setUploadedImages((prev) => [...prev, url]);
@@ -85,9 +88,22 @@ export default function AdminPage() {
     <ConvexClientProvider>
       <div className="min-h-screen bg-gray-50 py-8">
         <div className="mx-auto max-w-4xl px-4">
-          <h1 className="mb-8 text-3xl font-bold text-[#003C70]">
-            Администраторски панел
-          </h1>
+          <div className="mb-8 flex items-center justify-between">
+            <h1 className="text-3xl font-bold text-[#003C70]">
+              Администраторски панел
+            </h1>
+            <div className="flex items-center space-x-4">
+              <span className="text-sm text-gray-600">
+                Здравейте, {user?.id}
+              </span>
+              <button
+                onClick={logout}
+                className="cursor-pointer rounded-md bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700"
+              >
+                Изход
+              </button>
+            </div>
+          </div>
 
           {/* System Monitoring */}
           <div className="mb-8">
@@ -205,5 +221,13 @@ export default function AdminPage() {
         </div>
       )}
     </ConvexClientProvider>
+  );
+}
+
+export default function AdminPage() {
+  return (
+    <ProtectedRoute>
+      <AdminPageContent />
+    </ProtectedRoute>
   );
 }

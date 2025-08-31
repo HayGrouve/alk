@@ -8,6 +8,7 @@ import { Footer } from "@/components/Footer";
 import { structuredData } from "@/lib/seo";
 import { Analytics } from "@/components/Analytics";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
+import { ClientProviders } from "@/components/ClientProviders";
 
 export const metadata: Metadata = {
   title: "a-el-key мебели | Ръчно изработени мебели в България",
@@ -88,24 +89,26 @@ export default function RootLayout({
         />
       </head>
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
-        {/* Skip Navigation Link */}
-        <a
-          href="#main-content"
-          className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-[#003C70] focus:px-4 focus:py-2 focus:text-white focus:ring-2 focus:ring-white focus:outline-none"
-        >
-          Прескочи до основното съдържание
-        </a>
-        <Header />
-        <main id="main-content" className="flex-1">
-          {children}
-        </main>
-        <Footer />
+        <ClientProviders>
+          {/* Skip Navigation Link */}
+          <a
+            href="#main-content"
+            className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:rounded-md focus:bg-[#003C70] focus:px-4 focus:py-2 focus:text-white focus:ring-2 focus:ring-white focus:outline-none"
+          >
+            Прескочи до основното съдържание
+          </a>
+          <Header />
+          <main id="main-content" className="flex-1">
+            {children}
+          </main>
+          <Footer />
 
-        {/* Analytics */}
-        <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
+          {/* Analytics */}
+          <Analytics gaId={process.env.NEXT_PUBLIC_GA_ID} />
 
-        {/* Performance Monitoring */}
-        <PerformanceMonitor />
+          {/* Performance Monitoring */}
+          <PerformanceMonitor />
+        </ClientProviders>
       </body>
     </html>
   );
