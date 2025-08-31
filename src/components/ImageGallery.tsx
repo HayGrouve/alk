@@ -5,7 +5,9 @@ import Image from "next/image";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { Button } from "./ui/button";
-import { Edit } from "lucide-react";
+import { Edit, Trash2 } from "lucide-react";
+import { useState } from "react";
+import { getCategoryDisplayName } from "@/lib/categories";
 
 interface ImageGalleryProps {
   onEditImage?: (image: Doc<"images">) => void;
@@ -13,6 +15,43 @@ interface ImageGalleryProps {
 
 export function ImageGallery({ onEditImage }: ImageGalleryProps) {
   const images: Doc<"images">[] | undefined = useQuery(api.images.getAllImages);
+  const [deletingImageId, setDeletingImageId] = useState<string | null>(null);
+
+  const handleDeleteImage = async (image: Doc<"images">) => {
+    if (
+      !confirm(
+        "Сигурни ли сте, че искате да изтриете това изображение? Това действие не може да бъде отменено.",
+      )
+    ) {
+      return;
+    }
+
+    try {
+      setDeletingImageId(image._id);
+
+      const response = await fetch("/api/images/delete", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          imageId: image._id,
+          fileUrl: image.url,
+        }),
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete image");
+      }
+
+      console.log("Image deleted successfully");
+    } catch (error) {
+      console.error("Error deleting image:", error);
+      alert("Грешка при изтриване на изображението. Моля, опитайте отново.");
+    } finally {
+      setDeletingImageId(null);
+    }
+  };
 
   if (!images) {
     return (
@@ -64,7 +103,7 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
                 {(image.size / 1024 / 1024).toFixed(2)} MB
               </p>
               <p className="text-sm text-gray-600">
-                Категория: {image.category ?? "Некатегоризирано"}
+                Категория: {getCategoryDisplayName(image.category ?? "")}
               </p>
               {image.materials && image.materials.length > 0 && (
                 <p className="text-sm text-gray-600">
@@ -84,8 +123,8 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
               )}
               <p className="truncate text-xs text-gray-500">{image.url}</p>
 
-              {onEditImage && (
-                <div className="mt-3 flex gap-2">
+              <div className="mt-3 flex gap-2">
+                {onEditImage && (
                   <Button
                     size="sm"
                     variant="outline"
@@ -95,8 +134,18 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
                     <Edit className="mr-1 h-3 w-3" />
                     Редактирай
                   </Button>
-                </div>
-              )}
+                )}
+                <Button
+                  size="sm"
+                  variant="destructive"
+                  onClick={() => handleDeleteImage(image)}
+                  disabled={deletingImageId === image._id}
+                  className="flex-1"
+                >
+                  <Trash2 className="mr-1 h-3 w-3" />
+                  {deletingImageId === image._id ? "Изтриване..." : "Изтрий"}
+                </Button>
+              </div>
             </div>
           </div>
         ))}

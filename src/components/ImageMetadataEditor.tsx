@@ -1,7 +1,7 @@
 "use client";
 
-import { useState } from "react";
-import { useMutation } from "convex/react";
+import { useState, useEffect } from "react";
+import { useMutation, useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { Button } from "./ui/button";
@@ -10,7 +10,15 @@ import { Label } from "./ui/label";
 import { Textarea } from "./ui/textarea";
 import { Switch } from "./ui/switch";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
-import { Save, X } from "lucide-react";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
+import { Save, X, AlertCircle } from "lucide-react";
+import { FURNITURE_CATEGORIES } from "@/lib/categories";
 
 interface ImageMetadataEditorProps {
   image: Doc<"images">;
@@ -30,9 +38,36 @@ export function ImageMetadataEditor({
   });
 
   const updateImage = useMutation(api.images.updateImageMetadata);
+  const featuredImages = useQuery(api.images.getFeaturedImages);
+  const [featuredCount, setFeaturedCount] = useState(0);
+  const [canBeFeatured, setCanBeFeatured] = useState(true);
+
+  // Check if we can set this image as featured
+  useEffect(() => {
+    if (featuredImages) {
+      const currentFeaturedCount = featuredImages.length;
+      setFeaturedCount(currentFeaturedCount);
+
+      // If this image is already featured, it can always be featured
+      if (image.isFeatured) {
+        setCanBeFeatured(true);
+      } else {
+        // If this image is not featured, check if we can add it (max 4)
+        setCanBeFeatured(currentFeaturedCount < 4);
+      }
+    }
+  }, [featuredImages, image.isFeatured]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    // Validate featured images limit
+    if (formData.isFeatured && !canBeFeatured) {
+      alert(
+        "Максималният брой избрани творения е 4. Моля, премахнете друго избрано творение преди да добавите това.",
+      );
+      return;
+    }
 
     try {
       await updateImage({
@@ -69,14 +104,23 @@ export function ImageMetadataEditor({
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
             <Label htmlFor="category">Категория</Label>
-            <Input
-              id="category"
+            <Select
               value={formData.category}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, category: e.target.value }))
+              onValueChange={(value) =>
+                setFormData((prev) => ({ ...prev, category: value }))
               }
-              placeholder="Например: Кухни, Спални, Хол..."
-            />
+            >
+              <SelectTrigger>
+                <SelectValue placeholder="Изберете категория..." />
+              </SelectTrigger>
+              <SelectContent>
+                {FURNITURE_CATEGORIES.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
           </div>
 
           <div>
@@ -124,15 +168,32 @@ export function ImageMetadataEditor({
             />
           </div>
 
-          <div className="flex items-center space-x-2">
-            <Switch
-              id="isFeatured"
-              checked={formData.isFeatured}
-              onCheckedChange={(checked) =>
-                setFormData((prev) => ({ ...prev, isFeatured: checked }))
-              }
-            />
-            <Label htmlFor="isFeatured">Показване в избрани творения</Label>
+          <div className="space-y-2">
+            <div className="flex items-center space-x-2">
+              <Switch
+                id="isFeatured"
+                checked={formData.isFeatured}
+                onCheckedChange={(checked) =>
+                  setFormData((prev) => ({ ...prev, isFeatured: checked }))
+                }
+                disabled={!canBeFeatured && !formData.isFeatured}
+              />
+              <Label htmlFor="isFeatured">Показване в избрани творения</Label>
+            </div>
+
+            {featuredImages && (
+              <div className="flex items-center space-x-2 text-sm text-gray-600">
+                <AlertCircle className="h-4 w-4" />
+                <span>
+                  Избрани творения: {featuredCount}/4
+                  {!canBeFeatured && !formData.isFeatured && (
+                    <span className="ml-2 font-medium text-red-600">
+                      (Достигнат максимум)
+                    </span>
+                  )}
+                </span>
+              </div>
+            )}
           </div>
 
           <div className="flex justify-end space-x-2">

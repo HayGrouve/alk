@@ -17,10 +17,10 @@ const HeroCarousel = dynamic(
   },
 );
 
-const FeaturedCreations = dynamic(
+const FeaturedCreationsWrapper = dynamic(
   () =>
-    import("@/components/FeaturedCreations").then((mod) => ({
-      default: mod.FeaturedCreations,
+    import("@/components/FeaturedCreationsWrapper").then((mod) => ({
+      default: mod.FeaturedCreationsWrapper,
     })),
   {
     loading: () => (
@@ -29,6 +29,14 @@ const FeaturedCreations = dynamic(
           <div className="text-center">
             <div className="mx-auto mb-4 h-8 w-64 animate-pulse rounded bg-gray-200"></div>
             <div className="mx-auto h-4 w-96 animate-pulse rounded bg-gray-200"></div>
+          </div>
+          <div className="mt-12 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 lg:gap-8 xl:grid-cols-4">
+            {Array.from({ length: 4 }).map((_, index) => (
+              <div
+                key={index}
+                className="h-96 animate-pulse rounded-lg bg-gray-200"
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -103,7 +111,7 @@ export default function HomePage() {
           </div>
         }
       >
-        <FeaturedCreations />
+        <FeaturedCreationsWrapper />
       </Suspense>
     </div>
   );
