@@ -197,11 +197,11 @@ function FeaturedCreationsContent({
 
                   {/* Call to Action - Always at bottom */}
                   <Link
-                    href={`/gallery/${image.category ? createSlug(image.category) : "uncategorized"}/${createSlug(image.name)}`}
+                    href={`/gallery${image.category ? `/${createSlug(image.category)}` : ""}`}
                     className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-[#003C70] px-4 py-2 text-white transition-colors duration-300 hover:bg-[#0056b3] focus:ring-2 focus:ring-[#003C70] focus:ring-offset-2 focus:outline-none"
                     aria-label={`Вижте ${getImageDisplayTitle(image, index)} в галерията`}
                   >
-                    <span className="mr-2">Виж в галерията</span>
+                    <span className="mr-2">Виж галерията</span>
                     <svg
                       className="h-4 w-4 transition-transform duration-300 group-hover:translate-x-1"
                       fill="none"
