@@ -48,7 +48,7 @@ export const metadata: Metadata = {
       "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
     images: [
       {
-        url: "https://a-el-key.bg/og-image.jpg",
+        url: "https://a-el-key.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "a-el-key мебели - Ръчно изработени мебели в България",

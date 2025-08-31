@@ -22,14 +22,14 @@ export const metadata: Metadata = {
   openGraph: {
     type: "website",
     locale: "bg_BG",
-    url: "https://a-el-key.bg",
+    url: "https://a-el-key.com",
     siteName: "a-el-key мебели",
     title: "a-el-key мебели | Ръчно изработени мебели в България",
     description:
       "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
     images: [
       {
-        url: "https://a-el-key.bg/og-image.jpg",
+        url: "https://a-el-key.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "a-el-key мебели - Ръчно изработени мебели в България",
@@ -41,7 +41,7 @@ export const metadata: Metadata = {
     title: "a-el-key мебели | Ръчно изработени мебели в България",
     description:
       "Професионално изработване на мебели по поръчка в София и цяла България.",
-    images: ["https://a-el-key.bg/og-image.jpg"],
+    images: ["https://a-el-key.com/og-image.jpg"],
   },
   icons: [
     { rel: "icon", url: "/favicon.ico" },
@@ -49,7 +49,7 @@ export const metadata: Metadata = {
   ],
   manifest: "/site.webmanifest",
   alternates: {
-    canonical: "https://a-el-key.bg",
+    canonical: "https://a-el-key.com",
   },
 };
 

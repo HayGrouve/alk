@@ -5,18 +5,18 @@ export const defaultSEO: DefaultSeoProps = {
   defaultTitle: "a-el-key мебели | Ръчно изработени мебели в България",
   description:
     "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
-  canonical: "https://a-el-key.bg",
+  canonical: "https://a-el-key.com",
   openGraph: {
     type: "website",
     locale: "bg_BG",
-    url: "https://a-el-key.bg",
+    url: "https://a-el-key.com",
     siteName: "a-el-key мебели",
     title: "a-el-key мебели | Ръчно изработени мебели в България",
     description:
       "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
     images: [
       {
-        url: "https://a-el-key.bg/og-image.jpg",
+        url: "https://a-el-key.com/og-image.jpg",
         width: 1200,
         height: 630,
         alt: "a-el-key мебели - Ръчно изработени мебели в България",
@@ -129,9 +129,9 @@ export const structuredData = {
     alternateName: "a-el-key",
     description:
       "Професионално изработване на мебели по поръчка в София и цяла България",
-    url: "https://a-el-key.bg",
-    logo: "https://a-el-key.bg/logo.png",
-    image: "https://a-el-key.bg/og-image.jpg",
+    url: "https://a-el-key.com",
+    logo: "https://a-el-key.com/logo.png",
+    image: "https://a-el-key.com/og-image.jpg",
     telephone: "+359876566262",
     email: "kakrinski@abv.bg",
     address: {
@@ -211,7 +211,7 @@ export const structuredData = {
     "@context": "https://schema.org",
     "@type": "WebSite",
     name: "a-el-key мебели",
-    url: "https://a-el-key.bg",
+    url: "https://a-el-key.com",
     description:
       "Професионално изработване на мебели по поръчка в София и цяла България",
     inLanguage: "bg",
@@ -223,7 +223,7 @@ export const structuredData = {
       "@type": "SearchAction",
       target: {
         "@type": "EntryPoint",
-        urlTemplate: "https://a-el-key.bg/gallery?search={search_term_string}",
+        urlTemplate: "https://a-el-key.com/gallery?search={search_term_string}",
       },
       "query-input": "required name=search_term_string",
     },

@@ -2,6 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
@@ -229,7 +230,7 @@ export function HeroCarousel() {
               src={currentImage.src}
               alt={currentImage.alt}
               fill
-              className="object-cover"
+              className="cursor-default object-cover"
               priority={currentIndex === 0}
               sizes="100vw"
               quality={85}
@@ -291,9 +292,12 @@ export function HeroCarousel() {
                       : { delay: 0.6, duration: 0.6 }
                   }
                 >
-                  <button className="rounded-lg bg-[#003C70] px-8 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-[#003C70]/90">
+                  <Link
+                    href="/gallery"
+                    className="inline-block rounded-lg bg-[#003C70] px-8 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-[#003C70]/90"
+                  >
                     Вижте нашите проекти
-                  </button>
+                  </Link>
                 </motion.div>
               </div>
             </div>
@@ -306,7 +310,7 @@ export function HeroCarousel() {
         onClick={goToPrevious}
         onMouseEnter={() => setIsAutoPlaying(false)}
         onMouseLeave={() => setIsAutoPlaying(true)}
-        className="absolute top-1/2 left-4 -translate-y-1/2 rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none"
+        className="absolute top-1/2 left-4 -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none"
         aria-label={`Предишна снимка: ${carouselImages[currentIndex === 0 ? carouselImages.length - 1 : currentIndex - 1]?.title}`}
       >
         <ChevronLeftIcon className="h-6 w-6" />
@@ -316,7 +320,7 @@ export function HeroCarousel() {
         onClick={goToNext}
         onMouseEnter={() => setIsAutoPlaying(false)}
         onMouseLeave={() => setIsAutoPlaying(true)}
-        className="absolute top-1/2 right-4 -translate-y-1/2 rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none"
+        className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none"
         aria-label={`Следваща снимка: ${carouselImages[currentIndex === carouselImages.length - 1 ? 0 : currentIndex + 1]?.title}`}
       >
         <ChevronRightIcon className="h-6 w-6" />
@@ -334,7 +338,7 @@ export function HeroCarousel() {
             onClick={() => goToSlide(index)}
             onMouseEnter={() => setIsAutoPlaying(false)}
             onMouseLeave={() => setIsAutoPlaying(true)}
-            className={`h-3 w-3 rounded-full transition-colors duration-200 focus:ring-2 focus:ring-white/50 focus:outline-none ${
+            className={`h-3 w-3 cursor-pointer rounded-full transition-colors duration-200 focus:ring-2 focus:ring-white/50 focus:outline-none ${
               index === currentIndex
                 ? "bg-white"
                 : "bg-white/50 hover:bg-white/70"

@@ -19,6 +19,7 @@ const config = {
     minimumCacheTTL: 60,
     dangerouslyAllowSVG: true,
     contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    qualities: [75, 80, 85, 90, 95],
   },
   experimental: {
     optimizePackageImports: ["lucide-react", "@heroicons/react"],

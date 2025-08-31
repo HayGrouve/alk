@@ -104,7 +104,7 @@ export const GallerySEO = () => (
     title={pageSEO.gallery.title}
     description={pageSEO.gallery.description}
     keywords={pageSEO.gallery.keywords}
-    canonical="https://a-el-key.bg/gallery"
+    canonical="https://a-el-key.com/gallery"
   />
 );
 
@@ -113,7 +113,7 @@ export const ContactSEO = () => (
     title={pageSEO.contact.title}
     description={pageSEO.contact.description}
     keywords={pageSEO.contact.keywords}
-    canonical="https://a-el-key.bg/contact"
+    canonical="https://a-el-key.com/contact"
   />
 );
 
@@ -122,7 +122,7 @@ export const FAQSEO = () => (
     title={pageSEO.faq.title}
     description={pageSEO.faq.description}
     keywords={pageSEO.faq.keywords}
-    canonical="https://a-el-key.bg/faq"
+    canonical="https://a-el-key.com/faq"
   />
 );
 
@@ -131,6 +131,6 @@ export const AboutSEO = () => (
     title={pageSEO.about.title}
     description={pageSEO.about.description}
     keywords={pageSEO.about.keywords}
-    canonical="https://a-el-key.bg/about"
+    canonical="https://a-el-key.com/about"
   />
 );

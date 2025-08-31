@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: "/",
       disallow: ["/admin", "/api/"],
     },
-    sitemap: "https://a-el-key.bg/sitemap.xml",
+    sitemap: "https://a-el-key.com/sitemap.xml",
   };
 }

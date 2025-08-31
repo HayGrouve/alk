@@ -10,7 +10,7 @@ export function Footer() {
             <h3 className="mb-4 text-lg font-semibold">a-el-key</h3>
             <p className="text-sm text-gray-300">
               Ръчно изработени мебели по поръчка в град София. Качество и стил
-              вързани в едно.
+              свързани в едно.
             </p>
           </div>
 
@@ -57,8 +57,24 @@ export function Footer() {
           <div>
             <h3 className="mb-4 text-lg font-semibold">Контакти</h3>
             <div className="space-y-2 text-sm text-gray-300">
-              <p>София, България</p>
-              <p>Очаквайте ни скоро!</p>
+              <p>Нови Искър, София</p>
+              <p>България</p>
+              <p className="mt-3">
+                <a
+                  href="tel:+359876566262"
+                  className="transition-colors hover:text-white"
+                >
+                  +359 87 656 6262
+                </a>
+              </p>
+              <p>
+                <a
+                  href="mailto:info@a-el-key.com"
+                  className="transition-colors hover:text-white"
+                >
+                  info@a-el-key.com
+                </a>
+              </p>
             </div>
           </div>
         </div>

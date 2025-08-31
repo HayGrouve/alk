@@ -1,6 +1,6 @@
 /** @type {import('next-sitemap').IConfig} */
 export default {
-  siteUrl: process.env.SITE_URL || "https://a-el-key.bg",
+  siteUrl: process.env.SITE_URL || "https://a-el-key.com",
   generateRobotsTxt: true,
   changefreq: "weekly",
   priority: 0.7,
@@ -17,6 +17,6 @@ export default {
         allow: "/",
       },
     ],
-    additionalSitemaps: ["https://a-el-key.bg/sitemap.xml"],
+    additionalSitemaps: ["https://a-el-key.com/sitemap.xml"],
   },
 };
