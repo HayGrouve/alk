@@ -12,6 +12,7 @@ export function Header() {
   const navigation = [
     { name: "Начало", href: "/" },
     { name: "Галерия", href: "/gallery" },
+    { name: "Въпроси", href: "/faq" },
     { name: "За нас", href: "/about" },
     { name: "Контакти", href: "/contact" },
   ];

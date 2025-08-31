@@ -101,3 +101,12 @@ export function GalleryBreadcrumb({
 
   return <Breadcrumb items={items} />;
 }
+
+// FAQ-specific breadcrumb helper
+export function FaqBreadcrumb() {
+  const items: BreadcrumbItem[] = [
+    { name: "Често задавани въпроси", href: "/faq", current: true },
+  ];
+
+  return <Breadcrumb items={items} />;
+}
