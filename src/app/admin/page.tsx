@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, Suspense } from "react";
-import Image from "next/image";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { MonitoringDashboard } from "@/components/MonitoringDashboard";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
@@ -70,14 +69,13 @@ const ImageMetadataEditor = dynamic(
 );
 
 function AdminPageContent() {
-  const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
   const [editingImage, setEditingImage] = useState<Doc<"images"> | null>(null);
   const { user, logout } = useAuth();
 
-  const handleUploadComplete = (url: string) => {
-    setUploadedImages((prev) => [...prev, url]);
+  const handleUploadComplete = (_url: string) => {
     setError("");
+    // Image is automatically saved to database, no need for local state
   };
 
   const handleUploadError = (error: string) => {
@@ -170,38 +168,6 @@ function AdminPageContent() {
           >
             <ImageGallery onEditImage={setEditingImage} />
           </Suspense>
-
-          {/* Display locally uploaded images (for testing) */}
-          {uploadedImages.length > 0 && (
-            <div className="rounded-lg bg-white p-6 shadow-md">
-              <h2 className="mb-4 text-xl font-semibold text-gray-800">
-                Локално качени изображения ({uploadedImages.length})
-              </h2>
-
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {uploadedImages.map((url, index) => (
-                  <div
-                    key={index}
-                    className="overflow-hidden rounded-lg border"
-                  >
-                    <Image
-                      src={url}
-                      alt={`Качено изображение ${index + 1}`}
-                      width={400}
-                      height={192}
-                      className="h-48 w-full object-cover"
-                      sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
-                      quality={80}
-                      loading="lazy"
-                    />
-                    <div className="p-3">
-                      <p className="truncate text-sm text-gray-600">{url}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-          )}
         </div>
       </div>
 

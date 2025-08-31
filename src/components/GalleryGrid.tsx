@@ -18,6 +18,7 @@ const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
 import { Search, Filter, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
+import { getImageDisplayTitle } from "@/lib/title-generator";
 import {
   Select,
   SelectContent,
@@ -251,7 +252,7 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
                       }}
                       tabIndex={0}
                       role="button"
-                      aria-label={`Отвори ${image.name} в галерията`}
+                      aria-label={`Отвори ${getImageDisplayTitle(image, virtualItem.index)} в галерията`}
                     >
                       <div className="aspect-square overflow-hidden">
                         <Image
@@ -267,7 +268,7 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
                       </div>
                       <div className="p-4">
                         <h3 className="font-semibold text-gray-900">
-                          {image.name}
+                          {getImageDisplayTitle(image, virtualItem.index)}
                         </h3>
                         {image.description && (
                           <p className="mt-1 text-sm text-gray-600">

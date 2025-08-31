@@ -82,6 +82,16 @@ export function Footer() {
         {/* Bottom Bar */}
         <div className="mt-8 border-t border-gray-600 pt-8 text-center text-sm text-gray-300">
           <p>&copy; 2024 a-el-key. Всички права запазени.</p>
+          {/* Subtle admin link - barely visible to average users */}
+          <div className="mt-2">
+            <Link
+              href="/admin"
+              className="text-xs text-gray-500 transition-colors hover:text-gray-400"
+              title="Admin Panel"
+            >
+              ⚙️
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

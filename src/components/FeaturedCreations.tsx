@@ -9,6 +9,7 @@ import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { getCategoryDisplayName } from "@/lib/categories";
+import { getImageDisplayTitle } from "@/lib/title-generator";
 
 // Helper function to create a slug from the image name
 function createSlug(name: string): string {
@@ -117,7 +118,7 @@ function FeaturedCreationsContent({
                   delay: index * staggerDelay,
                   ease: "easeOut",
                 }}
-                className="group overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
+                className="group flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
                 whileHover={{ y: -8 }}
                 role="article"
                 aria-labelledby={`creation-${image._id}-title`}
@@ -145,7 +146,8 @@ function FeaturedCreationsContent({
                       className="object-cover transition-transform duration-500 group-hover:scale-110"
                       sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
                       quality={80}
-                      loading="lazy"
+                      priority={index === 0}
+                      loading={index === 0 ? "eager" : "lazy"}
                     />
 
                     {/* Overlay with year */}
@@ -158,44 +160,46 @@ function FeaturedCreationsContent({
                 </div>
 
                 {/* Content */}
-                <div className="p-6">
-                  <h3
-                    id={`creation-${image._id}-title`}
-                    className="mb-3 text-xl font-bold text-[#003C70] transition-colors duration-300 group-hover:text-[#0056b3]"
-                  >
-                    {image.name}
-                  </h3>
+                <div className="flex h-full flex-col p-6">
+                  <div className="flex-1">
+                    <h3
+                      id={`creation-${image._id}-title`}
+                      className="mb-3 text-xl font-bold text-[#003C70] transition-colors duration-300 group-hover:text-[#0056b3]"
+                    >
+                      {getImageDisplayTitle(image, index)}
+                    </h3>
 
-                  {image.description && (
-                    <p className="mb-4 line-clamp-3 text-gray-600">
-                      {image.description}
-                    </p>
-                  )}
+                    {image.description && (
+                      <p className="mb-4 line-clamp-3 text-gray-600">
+                        {image.description}
+                      </p>
+                    )}
 
-                  {/* Category */}
-                  <div className="mb-2">
-                    <span className="inline-block rounded-full bg-[#003C70]/10 px-3 py-1 text-sm font-medium text-[#003C70]">
-                      {getCategoryDisplayName(image.category ?? "")}
-                    </span>
+                    {/* Category */}
+                    <div className="mb-2">
+                      <span className="inline-block rounded-full bg-[#003C70]/10 px-3 py-1 text-sm font-medium text-[#003C70]">
+                        {getCategoryDisplayName(image.category ?? "")}
+                      </span>
+                    </div>
+
+                    {/* Materials */}
+                    {image.materials && image.materials.length > 0 && (
+                      <div className="mb-4">
+                        <h4 className="mb-2 text-sm font-semibold text-gray-700">
+                          Материали:
+                        </h4>
+                        <p className="line-clamp-2 text-sm text-gray-600">
+                          {image.materials.join(", ")}
+                        </p>
+                      </div>
+                    )}
                   </div>
 
-                  {/* Materials */}
-                  {image.materials && image.materials.length > 0 && (
-                    <div className="mb-4">
-                      <h4 className="mb-2 text-sm font-semibold text-gray-700">
-                        Материали:
-                      </h4>
-                      <p className="line-clamp-2 text-sm text-gray-600">
-                        {image.materials.join(", ")}
-                      </p>
-                    </div>
-                  )}
-
-                  {/* Call to Action */}
+                  {/* Call to Action - Always at bottom */}
                   <Link
                     href={`/gallery/${image.category ? createSlug(image.category) : "uncategorized"}/${createSlug(image.name)}`}
-                    className="inline-flex w-full items-center justify-center rounded-lg bg-[#003C70] px-4 py-2 text-white transition-colors duration-300 hover:bg-[#0056b3] focus:ring-2 focus:ring-[#003C70] focus:ring-offset-2 focus:outline-none"
-                    aria-label={`Вижте ${image.name} в галерията`}
+                    className="mt-4 inline-flex w-full items-center justify-center rounded-lg bg-[#003C70] px-4 py-2 text-white transition-colors duration-300 hover:bg-[#0056b3] focus:ring-2 focus:ring-[#003C70] focus:ring-offset-2 focus:outline-none"
+                    aria-label={`Вижте ${getImageDisplayTitle(image, index)} в галерията`}
                   >
                     <span className="mr-2">Виж в галерията</span>
                     <svg

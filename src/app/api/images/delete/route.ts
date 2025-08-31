@@ -35,19 +35,75 @@ export async function DELETE(request: NextRequest) {
     const urlParts: string[] = fileUrl.split("/");
     const fileKey: string = urlParts[urlParts.length - 1] ?? "";
 
+    // Track UploadThing deletion success
+    let uploadThingSuccess = false;
+
     if (fileKey) {
-      try {
-        // Delete from UploadThing
-        await utapi.deleteFiles([fileKey]);
-        console.log(`Successfully deleted file ${fileKey} from UploadThing`);
-      } catch (uploadThingError) {
-        console.error("Error deleting from UploadThing:", uploadThingError);
-        // Don't fail the entire operation if UploadThing deletion fails
-        // The Convex deletion already succeeded
+      // Retry UploadThing deletion up to 3 times
+      let lastError: Error | null = null;
+
+      for (let attempt = 1; attempt <= 3; attempt++) {
+        try {
+          // Delete from UploadThing with timeout
+          const deletePromise = utapi.deleteFiles([fileKey]);
+          const timeoutPromise = new Promise((_, reject) => {
+            setTimeout(
+              () => reject(new Error("UploadThing deletion timeout")),
+              15000,
+            ); // 15 second timeout
+          });
+
+          await Promise.race([deletePromise, timeoutPromise]);
+          console.log(
+            `Successfully deleted file ${fileKey} from UploadThing (attempt ${attempt})`,
+          );
+          uploadThingSuccess = true;
+          break;
+        } catch (uploadThingError) {
+          lastError =
+            uploadThingError instanceof Error
+              ? uploadThingError
+              : new Error("Unknown error");
+          console.warn(
+            `UploadThing deletion attempt ${attempt} failed for file ${fileKey}:`,
+            {
+              error: lastError.message,
+              fileKey,
+              fileUrl,
+            },
+          );
+
+          // Wait before retrying (exponential backoff)
+          if (attempt < 3) {
+            const delay = Math.pow(2, attempt) * 1000; // 2s, 4s delays
+            await new Promise((resolve) => setTimeout(resolve, delay));
+          }
+        }
+      }
+
+      if (!uploadThingSuccess) {
+        console.error(
+          `Failed to delete file ${fileKey} from UploadThing after 3 attempts:`,
+          {
+            error: lastError?.message ?? "Unknown error",
+            fileKey,
+            fileUrl,
+          },
+        );
+
+        // The Convex deletion already succeeded, so we can continue
+        // The file will remain in UploadThing but won't be referenced in our database
       }
     }
 
-    return NextResponse.json({ success: true });
+    return NextResponse.json({
+      success: true,
+      message:
+        "Image deleted successfully from database" +
+        (uploadThingSuccess
+          ? " and UploadThing"
+          : " (UploadThing deletion may have failed)"),
+    });
   } catch (error) {
     console.error("Error deleting image:", error);
     return NextResponse.json(

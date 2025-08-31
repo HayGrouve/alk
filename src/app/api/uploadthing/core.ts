@@ -22,17 +22,17 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ file }) => {
       // This code RUNS ON YOUR SERVER after upload
       console.log("Upload complete for file:", file.name);
-      console.log("File URL:", file.url);
+      console.log("File URL:", file.ufsUrl);
 
       try {
         // Extract image metadata using Sharp
-        const imageResponse = await fetch(file.url);
+        const imageResponse = await fetch(file.ufsUrl);
         const imageBuffer = await imageResponse.arrayBuffer();
         const metadata = await sharp(Buffer.from(imageBuffer)).metadata();
 
         // Store metadata in Convex database
         const imageId = await storeImageMetadata({
-          url: file.url,
+          url: file.ufsUrl,
           name: file.name,
           size: file.size,
           width: metadata.width ?? undefined,
@@ -50,7 +50,7 @@ export const ourFileRouter = {
 
         return {
           message: "Image Upload Complete",
-          url: file.url,
+          url: file.ufsUrl,
           name: file.name,
           size: file.size,
           width: metadata.width,
@@ -64,7 +64,7 @@ export const ourFileRouter = {
         // Still return basic info even if metadata extraction fails
         return {
           message: "Image Upload Complete (metadata extraction failed)",
-          url: file.url,
+          url: file.ufsUrl,
           name: file.name,
           size: file.size,
           error: "Failed to extract metadata",
