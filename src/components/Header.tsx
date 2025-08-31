@@ -31,7 +31,12 @@ export function Header() {
                 className="h-10 w-10"
                 priority
               />
-              <span className="text-xl font-bold text-[#003C70]">a-el-key</span>
+              <div className="flex flex-col">
+                <span className="text-xl font-bold text-[#003C70]">
+                  a-el-key
+                </span>
+                <span className="text-xs text-gray-500">Андрей Къкрински</span>
+              </div>
             </Link>
           </div>
 

@@ -161,7 +161,7 @@ export function ContactForm() {
                   <FormControl>
                     <Input
                       type="tel"
-                      placeholder="+359 88 526 0083"
+                      placeholder="+359 87 656 6262"
                       {...field}
                       className="transition-colors duration-200 focus:ring-2 focus:ring-[#003C70]"
                     />

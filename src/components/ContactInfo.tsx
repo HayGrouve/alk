@@ -32,9 +32,9 @@ export function ContactInfo() {
           <PhoneIcon className="mt-1 h-6 w-6 flex-shrink-0 text-[#003C70]" />
           <div className="flex-1">
             <h3 className="font-semibold text-gray-900">Телефон</h3>
-            <p className="text-gray-600">+359 88 526 0083</p>
+            <p className="text-gray-600">+359 87 656 6262</p>
             <Button variant="brand-outline" size="sm" className="mt-2" asChild>
-              <a href="tel:+359885260083" className="text-sm">
+              <a href="tel:+359876566262" className="text-sm">
                 Обадете се сега
               </a>
             </Button>
@@ -48,9 +48,9 @@ export function ContactInfo() {
           <EnvelopeIcon className="mt-1 h-6 w-6 flex-shrink-0 text-[#003C70]" />
           <div className="flex-1">
             <h3 className="font-semibold text-gray-900">Имейл</h3>
-            <p className="text-gray-600">dastankova@abv.bg</p>
+            <p className="text-gray-600">kakrinski@abv.bg</p>
             <Button variant="brand-outline" size="sm" className="mt-2" asChild>
-              <a href="mailto:dastankova@abv.bg" className="text-sm">
+              <a href="mailto:kakrinski@abv.bg" className="text-sm">
                 Изпратете имейл
               </a>
             </Button>
@@ -64,11 +64,7 @@ export function ContactInfo() {
           <MapPinIcon className="mt-1 h-6 w-6 flex-shrink-0 text-[#003C70]" />
           <div className="flex-1">
             <h3 className="font-semibold text-gray-900">Адрес</h3>
-            <p className="text-gray-600">
-              ул. &quot;Цариградско шосе&quot; 123
-              <br />
-              София 1000, България
-            </p>
+            <p className="text-gray-600">Нови Искър, България</p>
           </div>
         </div>
 
@@ -87,9 +83,9 @@ export function ContactInfo() {
               asChild
             >
               <a
-                href="viber://chat?number=%2B359885260083"
+                href="viber://chat?number=%2B359876566262"
                 className="text-sm"
-                aria-label="Отвори чат в Viber с номер +359 88 526 0083"
+                aria-label="Отвори чат в Viber с номер +359 87 656 6262"
               >
                 <ChatBubbleLeftRightIcon className="mr-2 h-4 w-4" />
                 Чат в Viber
