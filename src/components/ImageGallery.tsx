@@ -51,6 +51,9 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
               width={400}
               height={192}
               className="h-48 w-full object-cover"
+              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
+              quality={80}
+              loading="lazy"
             />
             <div className="p-3">
               <h3 className="font-medium text-gray-800">{image.name}</h3>

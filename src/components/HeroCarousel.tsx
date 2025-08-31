@@ -193,6 +193,15 @@ export function HeroCarousel() {
         setTouchStart(null);
         setTouchEnd(null);
       }}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowLeft") {
+          e.preventDefault();
+          goToPrevious();
+        } else if (e.key === "ArrowRight") {
+          e.preventDefault();
+          goToNext();
+        }
+      }}
     >
       {/* Main Image Container */}
       <div className="relative h-full w-full">
@@ -223,6 +232,7 @@ export function HeroCarousel() {
               className="object-cover"
               priority={currentIndex === 0}
               sizes="100vw"
+              quality={85}
               onError={(e) => {
                 // Fallback for missing images
                 const target = e.target as HTMLImageElement;

@@ -73,7 +73,7 @@ export function FaqSearch({ faqs, className }: FaqSearchProps) {
               variant="ghost"
               size="sm"
               onClick={clearSearch}
-              className="absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 p-0 hover:bg-gray-100 dark:hover:bg-gray-800"
+              className="absolute top-1/2 right-1 h-8 w-8 -translate-y-1/2 p-0 hover:bg-gray-100"
               aria-label="Изчисти търсенето"
             >
               <X className="h-4 w-4" />
@@ -85,7 +85,7 @@ export function FaqSearch({ faqs, className }: FaqSearchProps) {
       {/* Search Results Info */}
       {hasQuery && (
         <div
-          className="text-sm text-gray-600 dark:text-gray-400"
+          className="text-sm text-gray-600"
           aria-live="polite"
           aria-atomic="true"
         >

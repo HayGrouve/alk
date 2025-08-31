@@ -1,14 +1,20 @@
 "use client";
 
-import { useState, useCallback, useMemo, useRef } from "react";
+import { useState, useCallback, useMemo, useRef, Suspense } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { useInView } from "react-intersection-observer";
 import { useVirtualizer } from "@tanstack/react-virtual";
-import Lightbox from "yet-another-react-lightbox";
 import "yet-another-react-lightbox/styles.css";
+
+// Lazy load the lightbox component
+const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
+  ssr: false,
+  loading: () => <div className="hidden" />,
+});
 import { Search, Filter, X } from "lucide-react";
 import { Button } from "./ui/button";
 import { Input } from "./ui/input";
@@ -140,7 +146,12 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
                 handleFilterChange(selectedCategory, e.target.value)
               }
               className="pl-10"
+              aria-label="Търсене в галерията"
+              aria-describedby="search-help"
             />
+            <div id="search-help" className="sr-only">
+              Търсете по име или описание на мебелите
+            </div>
           </div>
           <Select
             value={selectedCategory || "all"}
@@ -148,7 +159,10 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
               handleFilterChange(value === "all" ? "" : value, searchTerm)
             }
           >
-            <SelectTrigger className="w-[180px]">
+            <SelectTrigger
+              className="w-[180px]"
+              aria-label="Филтриране по категория"
+            >
               <SelectValue placeholder="Всички категории" />
             </SelectTrigger>
             <SelectContent>
@@ -168,15 +182,20 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
             size="sm"
             onClick={clearFilters}
             className="flex items-center gap-2"
+            aria-label="Изчисти всички филтри"
           >
-            <X className="h-4 w-4" />
+            <X className="h-4 w-4" aria-hidden="true" />
             Изчисти филтри
           </Button>
         )}
       </div>
 
       {/* Results Count */}
-      <div className="text-sm text-gray-600 dark:text-gray-400">
+      <div
+        className="text-sm text-gray-600"
+        aria-live="polite"
+        aria-atomic="true"
+      >
         {allImages.length > 0 && (
           <span>
             Показани {allImages.length}{" "}
@@ -191,7 +210,11 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
       {allImages.length > 0 ? (
         <div
           ref={parentRef}
-          className="h-[600px] overflow-auto rounded-lg border dark:border-gray-700"
+          className="h-[600px] overflow-auto rounded-lg border"
+          role="grid"
+          aria-label="Галерия с изображения"
+          aria-rowcount={Math.ceil(allImages.length / 4)}
+          aria-colcount={4}
         >
           <div
             style={{
@@ -218,8 +241,17 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
                 >
                   <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
                     <div
-                      className="group relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 hover:shadow-lg dark:bg-gray-800"
+                      className="group relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 focus-within:ring-2 focus-within:ring-[#003C70] focus-within:ring-offset-2 hover:shadow-lg"
                       onClick={() => handleImageClick(virtualItem.index)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") {
+                          e.preventDefault();
+                          handleImageClick(virtualItem.index);
+                        }
+                      }}
+                      tabIndex={0}
+                      role="button"
+                      aria-label={`Отвори ${image.name} в галерията`}
                     >
                       <div className="aspect-square overflow-hidden">
                         <Image
@@ -228,24 +260,27 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
                           width={300}
                           height={300}
                           className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
+                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                          quality={80}
+                          loading="lazy"
                         />
                       </div>
                       <div className="p-4">
-                        <h3 className="font-semibold text-gray-900 dark:text-gray-100">
+                        <h3 className="font-semibold text-gray-900">
                           {image.name}
                         </h3>
                         {image.description && (
-                          <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
+                          <p className="mt-1 text-sm text-gray-600">
                             {image.description}
                           </p>
                         )}
                         {image.category && (
-                          <span className="mt-2 inline-block rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800 dark:bg-blue-900 dark:text-blue-200">
+                          <span className="mt-2 inline-block rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
                             {image.category}
                           </span>
                         )}
                         {image.year && (
-                          <span className="mt-2 ml-2 inline-block rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800 dark:bg-gray-700 dark:text-gray-200">
+                          <span className="mt-2 ml-2 inline-block rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800">
                             {image.year}
                           </span>
                         )}
@@ -260,10 +295,10 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
       ) : (
         <div className="flex flex-col items-center justify-center py-12 text-center">
           <Filter className="h-12 w-12 text-gray-400" />
-          <h3 className="mt-4 text-lg font-medium text-gray-900 dark:text-gray-100">
+          <h3 className="mt-4 text-lg font-medium text-gray-900">
             Няма намерени снимки
           </h3>
-          <p className="mt-2 text-gray-600 dark:text-gray-400">
+          <p className="mt-2 text-gray-600">
             {searchTerm || selectedCategory
               ? "Опитайте с други критерии за търсене."
               : "Галерията е празна."}
@@ -273,8 +308,16 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
 
       {/* Loading indicator */}
       {loading && (
-        <div className="flex justify-center py-4">
-          <div className="h-6 w-6 animate-spin rounded-full border-2 border-blue-600 border-t-transparent" />
+        <div
+          className="flex justify-center py-4"
+          role="status"
+          aria-label="Зареждане на изображения"
+        >
+          <div
+            className="h-6 w-6 animate-spin rounded-full border-2 border-blue-600 border-t-transparent"
+            aria-hidden="true"
+          />
+          <span className="sr-only">Зареждане на изображения...</span>
         </div>
       )}
 
@@ -282,19 +325,21 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
       {hasMore && !loading && <div ref={loadMoreRef} className="h-4" />}
 
       {/* Lightbox */}
-      <Lightbox
-        open={lightboxOpen}
-        close={() => setLightboxOpen(false)}
-        index={lightboxIndex}
-        slides={lightboxSlides}
-        carousel={{
-          finite: true,
-        }}
-        render={{
-          buttonPrev: allImages.length > 1 ? undefined : () => null,
-          buttonNext: allImages.length > 1 ? undefined : () => null,
-        }}
-      />
+      <Suspense fallback={<div className="hidden" />}>
+        <Lightbox
+          open={lightboxOpen}
+          close={() => setLightboxOpen(false)}
+          index={lightboxIndex}
+          slides={lightboxSlides}
+          carousel={{
+            finite: true,
+          }}
+          render={{
+            buttonPrev: allImages.length > 1 ? undefined : () => null,
+            buttonNext: allImages.length > 1 ? undefined : () => null,
+          }}
+        />
+      </Suspense>
     </div>
   );
 }

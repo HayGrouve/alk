@@ -65,7 +65,7 @@ export function FeaturedCreations() {
   return (
     <section
       ref={ref}
-      className="bg-gray-50 py-16 dark:bg-gray-900"
+      className="bg-gray-50 py-16"
       aria-labelledby="featured-creations-heading"
     >
       <div className="container mx-auto px-4">
@@ -78,11 +78,11 @@ export function FeaturedCreations() {
         >
           <h2
             id="featured-creations-heading"
-            className="mb-4 text-3xl font-bold text-[#003C70] md:text-4xl dark:text-blue-400"
+            className="mb-4 text-3xl font-bold text-[#003C70] md:text-4xl"
           >
             Избрани Творения
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
+          <p className="mx-auto max-w-2xl text-lg text-gray-600">
             Представяме ви нашите най-добри проекти - уникални мебели,
             изработени с внимание към детайла и качеството.
           </p>
@@ -104,7 +104,7 @@ export function FeaturedCreations() {
                 delay: index * staggerDelay,
                 ease: "easeOut",
               }}
-              className="group overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl dark:bg-gray-800 dark:shadow-gray-900/50"
+              className="group overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
               whileHover={{ y: -8 }}
               role="article"
               aria-labelledby={`creation-${creation.id}-title`}
@@ -131,11 +131,13 @@ export function FeaturedCreations() {
                     fill
                     className="object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
+                    quality={80}
+                    loading="lazy"
                   />
 
                   {/* Overlay with year */}
-                  <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 backdrop-blur-sm dark:bg-gray-800/90">
-                    <span className="text-sm font-semibold text-[#003C70] dark:text-blue-400">
+                  <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 backdrop-blur-sm">
+                    <span className="text-sm font-semibold text-[#003C70]">
                       {creation.year}
                     </span>
                   </div>
@@ -146,21 +148,21 @@ export function FeaturedCreations() {
               <div className="p-6">
                 <h3
                   id={`creation-${creation.id}-title`}
-                  className="mb-3 text-xl font-bold text-[#003C70] transition-colors duration-300 group-hover:text-[#0056b3] dark:text-blue-400 dark:group-hover:text-blue-300"
+                  className="mb-3 text-xl font-bold text-[#003C70] transition-colors duration-300 group-hover:text-[#0056b3]"
                 >
                   {creation.title}
                 </h3>
 
-                <p className="mb-4 line-clamp-3 text-gray-600 dark:text-gray-300">
+                <p className="mb-4 line-clamp-3 text-gray-600">
                   {creation.description}
                 </p>
 
                 {/* Materials */}
                 <div className="mb-4">
-                  <h4 className="mb-2 text-sm font-semibold text-gray-700 dark:text-gray-300">
+                  <h4 className="mb-2 text-sm font-semibold text-gray-700">
                     Материали:
                   </h4>
-                  <p className="line-clamp-2 text-sm text-gray-600 dark:text-gray-400">
+                  <p className="line-clamp-2 text-sm text-gray-600">
                     {creation.materials}
                   </p>
                 </div>
@@ -168,7 +170,7 @@ export function FeaturedCreations() {
                 {/* Call to Action */}
                 <Link
                   href={`/gallery/${creation.category}/${creation.slug}`}
-                  className="inline-flex w-full items-center justify-center rounded-lg bg-[#003C70] px-4 py-2 text-white transition-colors duration-300 hover:bg-[#0056b3] focus:ring-2 focus:ring-[#003C70] focus:ring-offset-2 focus:outline-none dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-500"
+                  className="inline-flex w-full items-center justify-center rounded-lg bg-[#003C70] px-4 py-2 text-white transition-colors duration-300 hover:bg-[#0056b3] focus:ring-2 focus:ring-[#003C70] focus:ring-offset-2 focus:outline-none"
                   aria-label={`Вижте ${creation.title} в галерията`}
                 >
                   <span className="mr-2">Виж в галерията</span>
@@ -201,7 +203,7 @@ export function FeaturedCreations() {
         >
           <Link
             href="/gallery"
-            className="inline-flex items-center rounded-lg border-2 border-[#003C70] bg-transparent px-8 py-3 text-[#003C70] transition-all duration-300 hover:bg-[#003C70] hover:text-white focus:ring-2 focus:ring-[#003C70] focus:ring-offset-2 focus:outline-none dark:border-blue-400 dark:text-blue-400 dark:hover:bg-blue-400 dark:hover:text-gray-900 dark:focus:ring-blue-500"
+            className="inline-flex items-center rounded-lg border-2 border-[#003C70] bg-transparent px-8 py-3 text-[#003C70] transition-all duration-300 hover:bg-[#003C70] hover:text-white focus:ring-2 focus:ring-[#003C70] focus:ring-offset-2 focus:outline-none"
             aria-label="Вижте всички творения в галерията"
           >
             <span className="mr-2 font-semibold">Виж всички творения</span>

@@ -26,7 +26,7 @@ export default function FAQPage() {
       />
 
       {/* Breadcrumb */}
-      <div className="border-b border-gray-200 bg-white dark:border-gray-700 dark:bg-gray-800">
+      <div className="border-b border-gray-200 bg-white">
         <div className="mx-auto max-w-7xl px-4 py-4 sm:px-6 lg:px-8">
           <FaqBreadcrumb />
         </div>
