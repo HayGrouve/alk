@@ -21,7 +21,7 @@ export const metadata: Metadata = {
       "Познайте историята на a-el-key мебели и майстора Андрей Къкрински. Над 15 години опит в създаването на уникални мебели по поръчка.",
     images: [
       {
-        url: "https://a-el-key.com/about-og.jpg",
+        url: "https://a-el-key.com/images/hero/bedroom.jpg",
         width: 1200,
         height: 630,
         alt: "За нас - a-el-key мебели",

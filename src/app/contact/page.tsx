@@ -19,7 +19,7 @@ export const metadata: Metadata = {
       "Свържете се с нас за безплатна консултация по вашия мебелен проект. Работилница в Нови Искър, София.",
     images: [
       {
-        url: "https://a-el-key.com/contact-og.jpg",
+        url: "https://a-el-key.com/images/hero/wardrobe.jpg",
         width: 1200,
         height: 630,
         alt: "Контакти - a-el-key мебели",
