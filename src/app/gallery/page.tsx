@@ -1,8 +1,31 @@
-"use client";
-
+import { type Metadata } from "next";
 import { GalleryBreadcrumb } from "@/components/Breadcrumb";
 import { GalleryGrid } from "@/components/GalleryGrid";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
+
+export const metadata: Metadata = {
+  title: "Галерия | a-el-key мебели",
+  description:
+    "Разгледайте нашата галерия от ръчно изработени мебели. Кухни, спални, гардероби и индивидуални проекти в различни стилове.",
+  keywords:
+    "галерия мебели, кухни, спални, гардероби, мебели по поръчка, София",
+  openGraph: {
+    title: "Галерия | a-el-key мебели",
+    description:
+      "Разгледайте нашата галерия от ръчно изработени мебели. Кухни, спални, гардероби и индивидуални проекти в различни стилове.",
+    images: [
+      {
+        url: "https://a-el-key.bg/gallery-og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Галерия от ръчно изработени мебели - a-el-key",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://a-el-key.bg/gallery",
+  },
+};
 
 export default function GalleryPage() {
   return (

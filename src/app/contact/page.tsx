@@ -1,7 +1,32 @@
+import { type Metadata } from "next";
 import { ContactForm } from "@/components/ContactForm";
 import { ContactInfo } from "@/components/ContactInfo";
 import { WorkshopMap } from "@/components/WorkshopMap";
 import { Breadcrumb } from "@/components/Breadcrumb";
+
+export const metadata: Metadata = {
+  title: "Контакти | a-el-key мебели",
+  description:
+    "Свържете се с нас за безплатна консултация по вашия мебелен проект. Работилница в Нови Искър, София. Телефон: +359 87 656 6262",
+  keywords:
+    "контакти, мебели, консултация, Нови Искър, София, телефон, имейл, Андрей Къкрински",
+  openGraph: {
+    title: "Контакти | a-el-key мебели",
+    description:
+      "Свържете се с нас за безплатна консултация по вашия мебелен проект. Работилница в Нови Искър, София.",
+    images: [
+      {
+        url: "https://a-el-key.bg/contact-og.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Контакти - a-el-key мебели",
+      },
+    ],
+  },
+  alternates: {
+    canonical: "https://a-el-key.bg/contact",
+  },
+};
 
 export default function ContactPage() {
   return (

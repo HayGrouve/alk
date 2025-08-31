@@ -1,5 +1,27 @@
+import { type Metadata } from "next";
 import { HeroCarousel } from "@/components/HeroCarousel";
 import { FeaturedCreations } from "@/components/FeaturedCreations";
+
+export const metadata: Metadata = {
+  title: "a-el-key мебели | Ръчно изработени мебели в България",
+  description:
+    "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
+  keywords:
+    "мебели по поръчка, София, България, кухни, спални, гардероби, ръчно изработени мебели, Андрей Къкрински",
+  openGraph: {
+    title: "a-el-key мебели | Ръчно изработени мебели в България",
+    description:
+      "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
+    images: [
+      {
+        url: "https://a-el-key.bg/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "a-el-key мебели - Ръчно изработени мебели в България",
+      },
+    ],
+  },
+};
 
 export default function HomePage() {
   return (

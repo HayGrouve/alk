@@ -2,15 +2,54 @@ import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
+import Script from "next/script";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ThemeProvider } from "@/components/ThemeProvider";
+import { structuredData } from "@/lib/seo";
 
 export const metadata: Metadata = {
-  title: "a-el-key - Очаквайте ни скоро",
+  title: "a-el-key мебели | Ръчно изработени мебели в България",
   description:
-    "a-el-key - Ръчно изработени мебели по поръчка в София. Очаквайте ни скоро с нещо изключително.",
-  icons: [{ rel: "icon", url: "/favicon.ico" }],
+    "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
+  keywords:
+    "мебели, мебели по поръчка, София, България, кухни, спални, гардероби, ръчно изработени мебели, Андрей Къкрински, a-el-key",
+  authors: [{ name: "Андрей Къкрински" }],
+  creator: "Андрей Къкрински",
+  publisher: "a-el-key мебели",
+  robots: "index, follow",
+  openGraph: {
+    type: "website",
+    locale: "bg_BG",
+    url: "https://a-el-key.bg",
+    siteName: "a-el-key мебели",
+    title: "a-el-key мебели | Ръчно изработени мебели в България",
+    description:
+      "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
+    images: [
+      {
+        url: "https://a-el-key.bg/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: "a-el-key мебели - Ръчно изработени мебели в България",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "a-el-key мебели | Ръчно изработени мебели в България",
+    description:
+      "Професионално изработване на мебели по поръчка в София и цяла България.",
+    images: ["https://a-el-key.bg/og-image.jpg"],
+  },
+  icons: [
+    { rel: "icon", url: "/favicon.ico" },
+    { rel: "apple-touch-icon", url: "/apple-touch-icon.png", sizes: "180x180" },
+  ],
+  manifest: "/site.webmanifest",
+  alternates: {
+    canonical: "https://a-el-key.bg",
+  },
 };
 
 const geist = Geist({
@@ -23,6 +62,30 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="bg" className={`${geist.variable}`} suppressHydrationWarning>
+      <head>
+        {/* Structured Data */}
+        <Script
+          id="organization-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData.organization),
+          }}
+        />
+        <Script
+          id="person-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData.person),
+          }}
+        />
+        <Script
+          id="website-schema"
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(structuredData.website),
+          }}
+        />
+      </head>
       <body className="flex min-h-screen flex-col" suppressHydrationWarning>
         <ThemeProvider defaultTheme="system" storageKey="alk-theme">
           {/* Skip Navigation Link */}
