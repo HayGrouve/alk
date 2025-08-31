@@ -1,13 +1,12 @@
 "use client";
 
-import { useState, useCallback, useMemo, useRef, Suspense } from "react";
+import { useState, useCallback, useMemo, Suspense } from "react";
 import Image from "next/image";
 import dynamic from "next/dynamic";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { useInView } from "react-intersection-observer";
-import { useVirtualizer } from "@tanstack/react-virtual";
 import "yet-another-react-lightbox/styles.css";
 
 // Lazy load the lightbox component
@@ -104,14 +103,7 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
     }
   }, [inView, hasMore, loading, loadMore]);
 
-  // Virtual scrolling setup
-  const parentRef = useRef<HTMLDivElement>(null);
-  const virtualizer = useVirtualizer({
-    count: allImages.length,
-    getScrollElement: () => parentRef.current,
-    estimateSize: () => 300,
-    overscan: 5,
-  });
+  // No more virtual scrolling - using responsive grid instead
 
   // Prepare lightbox slides
   const lightboxSlides = useMemo(() => {
@@ -209,88 +201,83 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
 
       {/* Gallery Grid */}
       {allImages.length > 0 ? (
-        <div
-          ref={parentRef}
-          className="h-[600px] overflow-auto rounded-lg border"
-          role="grid"
-          aria-label="Галерия с изображения"
-          aria-rowcount={Math.ceil(allImages.length / 4)}
-          aria-colcount={4}
-        >
+        <div className="space-y-6">
+          {/* Responsive Grid Layout */}
           <div
-            style={{
-              height: `${virtualizer.getTotalSize()}px`,
-              width: "100%",
-              position: "relative",
-            }}
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+            role="grid"
+            aria-label="Галерия с изображения"
           >
-            {virtualizer.getVirtualItems().map((virtualItem) => {
-              const image = allImages[virtualItem.index];
-              if (!image) return null;
+            {allImages.map((image, index) => (
+              <div
+                key={image._id}
+                className="group relative cursor-pointer overflow-hidden rounded-xl bg-white shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-2xl"
+                onClick={() => handleImageClick(index)}
+                onKeyDown={(e) => {
+                  if (e.key === "Enter" || e.key === " ") {
+                    e.preventDefault();
+                    handleImageClick(index);
+                  }
+                }}
+                tabIndex={0}
+                role="button"
+                aria-label={`Отвори ${getImageDisplayTitle(image, index)} в галерията`}
+              >
+                {/* Image Container */}
+                <div className="aspect-square overflow-hidden">
+                  <Image
+                    src={image.url}
+                    alt={image.name}
+                    width={400}
+                    height={400}
+                    className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, (max-width: 1536px) 25vw, 20vw"
+                    quality={85}
+                    loading="lazy"
+                  />
 
-              return (
-                <div
-                  key={virtualItem.key}
-                  style={{
-                    position: "absolute",
-                    top: 0,
-                    left: 0,
-                    width: "100%",
-                    height: `${virtualItem.size}px`,
-                    transform: `translateY(${virtualItem.start}px)`,
-                  }}
-                >
-                  <div className="grid grid-cols-1 gap-4 p-4 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                    <div
-                      className="group relative cursor-pointer overflow-hidden rounded-lg bg-white shadow-md transition-all duration-200 focus-within:ring-2 focus-within:ring-[#003C70] focus-within:ring-offset-2 hover:shadow-lg"
-                      onClick={() => handleImageClick(virtualItem.index)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" || e.key === " ") {
-                          e.preventDefault();
-                          handleImageClick(virtualItem.index);
-                        }
-                      }}
-                      tabIndex={0}
-                      role="button"
-                      aria-label={`Отвори ${getImageDisplayTitle(image, virtualItem.index)} в галерията`}
-                    >
-                      <div className="aspect-square overflow-hidden">
-                        <Image
-                          src={image.url}
-                          alt={image.name}
-                          width={300}
-                          height={300}
-                          className="h-full w-full object-cover transition-transform duration-200 group-hover:scale-105"
-                          sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, 25vw"
-                          quality={80}
-                          loading="lazy"
-                        />
-                      </div>
-                      <div className="p-4">
-                        <h3 className="font-semibold text-gray-900">
-                          {getImageDisplayTitle(image, virtualItem.index)}
-                        </h3>
-                        {image.description && (
-                          <p className="mt-1 text-sm text-gray-600">
-                            {image.description}
-                          </p>
-                        )}
-                        {image.category && (
-                          <span className="mt-2 inline-block rounded-full bg-blue-100 px-2 py-1 text-xs font-medium text-blue-800">
-                            {image.category}
-                          </span>
-                        )}
-                        {image.year && (
-                          <span className="mt-2 ml-2 inline-block rounded-full bg-gray-100 px-2 py-1 text-xs font-medium text-gray-800">
-                            {image.year}
-                          </span>
-                        )}
-                      </div>
+                  {/* Overlay with year */}
+                  {image.year && (
+                    <div className="absolute top-4 right-4 rounded-full bg-white/90 px-3 py-1 backdrop-blur-sm">
+                      <span className="text-sm font-semibold text-[#003C70]">
+                        {image.year}
+                      </span>
                     </div>
+                  )}
+                </div>
+
+                {/* Content */}
+                <div className="p-6">
+                  <h3 className="mb-2 text-lg font-bold text-[#003C70] transition-colors duration-300 group-hover:text-[#0056b3]">
+                    {getImageDisplayTitle(image, index)}
+                  </h3>
+
+                  {image.description && (
+                    <p className="mb-4 line-clamp-3 text-sm text-gray-600">
+                      {image.description}
+                    </p>
+                  )}
+
+                  {/* Category and Materials */}
+                  <div className="space-y-2">
+                    {image.category && (
+                      <span className="inline-block rounded-full bg-[#003C70]/10 px-3 py-1 text-xs font-medium text-[#003C70]">
+                        {image.category}
+                      </span>
+                    )}
+
+                    {image.materials && image.materials.length > 0 && (
+                      <div className="text-xs text-gray-500">
+                        <span className="font-medium">Материали:</span>{" "}
+                        {image.materials.slice(0, 2).join(", ")}
+                        {image.materials.length > 2 &&
+                          ` +${image.materials.length - 2} още`}
+                      </div>
+                    )}
                   </div>
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       ) : (
