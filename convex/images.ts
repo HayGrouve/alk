@@ -87,3 +87,67 @@ export const deleteImage = mutation({
     return await ctx.db.delete(args.id);
   },
 });
+
+// Query to get images with pagination
+export const getImagesPaginated = query({
+  args: {
+    limit: v.number(),
+    cursor: v.optional(v.string()),
+    category: v.optional(v.string()),
+    searchTerm: v.optional(v.string()),
+  },
+  handler: async (ctx, args) => {
+    let allImages;
+
+    // Apply category filter if provided
+    if (args.category) {
+      allImages = await ctx.db
+        .query("images")
+        .withIndex("by_category", (q) => q.eq("category", args.category))
+        .order("desc")
+        .collect();
+    } else {
+      allImages = await ctx.db.query("images").order("desc").collect();
+    }
+
+    // Apply search filter if provided
+    if (args.searchTerm) {
+      allImages = allImages.filter(
+        (image) =>
+          image.name.toLowerCase().includes(args.searchTerm!.toLowerCase()) ||
+          (image.description &&
+            image.description
+              .toLowerCase()
+              .includes(args.searchTerm!.toLowerCase())),
+      );
+    }
+
+    // Apply pagination
+    const startIndex = args.cursor ? parseInt(args.cursor) : 0;
+    const endIndex = startIndex + args.limit;
+    const paginatedImages = allImages.slice(startIndex, endIndex);
+
+    return {
+      images: paginatedImages,
+      hasMore: endIndex < allImages.length,
+      nextCursor: endIndex < allImages.length ? endIndex.toString() : null,
+    };
+  },
+});
+
+// Query to get all unique categories
+export const getCategories = query({
+  args: {},
+  handler: async (ctx) => {
+    const images = await ctx.db.query("images").collect();
+    const categories = new Set<string>();
+
+    images.forEach((image) => {
+      if (image.category) {
+        categories.add(image.category);
+      }
+    });
+
+    return Array.from(categories).sort();
+  },
+});

@@ -5,10 +5,13 @@ import Image from "next/image";
 import { ImageUpload, SimpleUploadButton } from "@/components/ImageUpload";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import { ImageGallery } from "@/components/ImageGallery";
+import { ImageMetadataEditor } from "@/components/ImageMetadataEditor";
+import type { Doc } from "../../../convex/_generated/dataModel";
 
 export default function AdminPage() {
   const [uploadedImages, setUploadedImages] = useState<string[]>([]);
   const [error, setError] = useState<string>("");
+  const [editingImage, setEditingImage] = useState<Doc<"images"> | null>(null);
 
   const handleUploadComplete = (url: string) => {
     setUploadedImages((prev) => [...prev, url]);
@@ -57,7 +60,7 @@ export default function AdminPage() {
           </div>
 
           {/* Display images from Convex database */}
-          <ImageGallery />
+          <ImageGallery onEditImage={setEditingImage} />
 
           {/* Display locally uploaded images (for testing) */}
           {uploadedImages.length > 0 && (
@@ -89,6 +92,16 @@ export default function AdminPage() {
           )}
         </div>
       </div>
+
+      {/* Image Metadata Editor Modal */}
+      {editingImage && (
+        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4">
+          <ImageMetadataEditor
+            image={editingImage}
+            onClose={() => setEditingImage(null)}
+          />
+        </div>
+      )}
     </ConvexClientProvider>
   );
 }

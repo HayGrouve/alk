@@ -23,7 +23,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="bg" className={`${geist.variable}`} suppressHydrationWarning>
-      <body className="flex min-h-screen flex-col">
+      <body className="flex min-h-screen flex-col" suppressHydrationWarning>
         <ThemeProvider defaultTheme="system" storageKey="alk-theme">
           {/* Skip Navigation Link */}
           <a

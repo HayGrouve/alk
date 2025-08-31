@@ -4,8 +4,14 @@ import { useQuery } from "convex/react";
 import Image from "next/image";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
+import { Button } from "./ui/button";
+import { Edit } from "lucide-react";
 
-export function ImageGallery() {
+interface ImageGalleryProps {
+  onEditImage?: (image: Doc<"images">) => void;
+}
+
+export function ImageGallery({ onEditImage }: ImageGalleryProps) {
   const images: Doc<"images">[] | undefined = useQuery(api.images.getAllImages);
 
   if (!images) {
@@ -62,7 +68,32 @@ export function ImageGallery() {
                   Материали: {image.materials.join(", ")}
                 </p>
               )}
+              {image.description && (
+                <p className="text-sm text-gray-600">
+                  Описание: {image.description}
+                </p>
+              )}
+              <p className="text-sm text-gray-600">Година: {image.year}</p>
+              {image.isFeatured && (
+                <p className="text-sm font-medium text-blue-600">
+                  ⭐ Избрано творение
+                </p>
+              )}
               <p className="truncate text-xs text-gray-500">{image.url}</p>
+
+              {onEditImage && (
+                <div className="mt-3 flex gap-2">
+                  <Button
+                    size="sm"
+                    variant="outline"
+                    onClick={() => onEditImage(image)}
+                    className="flex-1"
+                  >
+                    <Edit className="mr-1 h-3 w-3" />
+                    Редактирай
+                  </Button>
+                </div>
+              )}
             </div>
           </div>
         ))}
