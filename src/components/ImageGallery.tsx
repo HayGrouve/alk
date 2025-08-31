@@ -43,8 +43,6 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
       if (!response.ok) {
         throw new Error("Failed to delete image");
       }
-
-      console.log("Image deleted successfully");
     } catch (error) {
       console.error("Error deleting image:", error);
       alert("Грешка при изтриване на изображението. Моля, опитайте отново.");

@@ -83,10 +83,9 @@ export function ContactForm() {
     },
   });
 
-  const onSubmit = async (data: ContactFormData) => {
+  const onSubmit = async (_data: ContactFormData) => {
     try {
       // Here you would typically send the data to your API
-      console.log("Form submitted:", data);
 
       // For now, we'll just show a success message
       alert("Благодарим ви! Ще се свържем с вас скоро.");

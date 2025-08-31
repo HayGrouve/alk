@@ -54,9 +54,7 @@ export async function DELETE(request: NextRequest) {
           });
 
           await Promise.race([deletePromise, timeoutPromise]);
-          console.log(
-            `Successfully deleted file ${fileKey} from UploadThing (attempt ${attempt})`,
-          );
+
           uploadThingSuccess = true;
           break;
         } catch (uploadThingError) {

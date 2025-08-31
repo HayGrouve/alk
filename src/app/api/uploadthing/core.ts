@@ -21,8 +21,6 @@ export const ourFileRouter = {
     })
     .onUploadComplete(async ({ file }) => {
       // This code RUNS ON YOUR SERVER after upload
-      console.log("Upload complete for file:", file.name);
-      console.log("File URL:", file.ufsUrl);
 
       try {
         // Extract image metadata using Sharp
@@ -45,8 +43,6 @@ export const ourFileRouter = {
           description: "", // Will be updated later
           isFeatured: false, // Default to not featured
         });
-
-        console.log("Image metadata stored in Convex with ID:", imageId);
 
         return {
           message: "Image Upload Complete",
