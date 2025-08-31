@@ -4,7 +4,7 @@ import { Fragment, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
-import { HighContrastToggle } from "./HighContrastToggle";
+import { ThemeToggle } from "./ThemeToggle";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -17,7 +17,7 @@ export function Header() {
   ];
 
   return (
-    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm">
+    <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white/95 backdrop-blur-sm dark:border-gray-700 dark:bg-gray-900/95">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-16 items-center justify-between">
           {/* Logo */}
@@ -32,10 +32,12 @@ export function Header() {
                 priority
               />
               <div className="flex flex-col">
-                <span className="text-xl font-bold text-[#003C70]">
+                <span className="text-xl font-bold text-[#003C70] dark:text-blue-400">
                   a-el-key
                 </span>
-                <span className="text-xs text-gray-500">Андрей Къкрински</span>
+                <span className="text-xs text-gray-500 dark:text-gray-400">
+                  Андрей Къкрински
+                </span>
               </div>
             </Link>
           </div>
@@ -46,23 +48,23 @@ export function Header() {
               <Link
                 key={item.name}
                 href={item.href}
-                className="px-3 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70]"
+                className="px-3 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70] dark:text-gray-300 dark:hover:text-blue-400"
               >
                 {item.name}
               </Link>
             ))}
           </nav>
 
-          {/* Accessibility Controls */}
-          <div className="hidden md:flex md:items-center md:space-x-2">
-            <HighContrastToggle />
+          {/* Theme Controls */}
+          <div className="hidden md:flex md:items-center">
+            <ThemeToggle />
           </div>
 
           {/* Mobile menu button */}
           <div className="md:hidden">
             <button
               type="button"
-              className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-[#003C70] focus:ring-2 focus:ring-[#003C70] focus:outline-none focus:ring-inset"
+              className="inline-flex items-center justify-center rounded-md p-2 text-gray-700 hover:bg-gray-100 hover:text-[#003C70] focus:ring-2 focus:ring-[#003C70] focus:outline-none focus:ring-inset dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:text-blue-400 dark:focus:ring-blue-400"
               onClick={() => setIsMobileMenuOpen(true)}
             >
               <span className="sr-only">Отвори главното меню</span>
@@ -152,9 +154,9 @@ export function Header() {
                         </button>
                       </div>
                     </Transition.Child>
-                    <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl">
+                    <div className="flex h-full flex-col overflow-y-scroll bg-white py-6 shadow-xl dark:bg-gray-900">
                       <div className="px-4 sm:px-6">
-                        <Dialog.Title className="text-base leading-6 font-semibold text-gray-900">
+                        <Dialog.Title className="text-base leading-6 font-semibold text-gray-900 dark:text-gray-100">
                           Навигация
                         </Dialog.Title>
                       </div>
@@ -164,7 +166,7 @@ export function Header() {
                             <Link
                               key={item.name}
                               href={item.href}
-                              className="block px-3 py-2 text-base font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70]"
+                              className="block px-3 py-2 text-base font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70] dark:text-gray-300 dark:hover:text-blue-400"
                               onClick={() => setIsMobileMenuOpen(false)}
                             >
                               {item.name}
@@ -172,13 +174,13 @@ export function Header() {
                           ))}
                         </nav>
 
-                        {/* Mobile Accessibility Controls */}
-                        <div className="mt-6 border-t border-gray-200 pt-6">
+                        {/* Mobile Theme Controls */}
+                        <div className="mt-6 border-t border-gray-200 pt-6 dark:border-gray-700">
                           <div className="flex items-center justify-between">
-                            <span className="text-sm font-medium text-gray-700">
-                              Висок контраст
+                            <span className="text-sm font-medium text-gray-700 dark:text-gray-300">
+                              Тема
                             </span>
-                            <HighContrastToggle />
+                            <ThemeToggle />
                           </div>
                         </div>
                       </div>

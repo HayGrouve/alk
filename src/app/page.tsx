@@ -1,4 +1,5 @@
 import { HeroCarousel } from "@/components/HeroCarousel";
+import { FeaturedCreations } from "@/components/FeaturedCreations";
 
 export default function HomePage() {
   return (
@@ -6,24 +7,27 @@ export default function HomePage() {
       {/* Hero Section with Animated Carousel */}
       <HeroCarousel />
 
-      {/* Additional content sections can be added here */}
+      {/* Welcome Section */}
       <div className="container mx-auto px-4 py-16">
         <div className="text-center">
-          <h2 className="mb-4 text-3xl font-bold text-[#003C70]">
+          <h2 className="mb-4 text-3xl font-bold text-[#003C70] dark:text-blue-400">
             Добре дошли в a-el-key мебели
           </h2>
-          <p className="mx-auto max-w-2xl text-lg text-gray-600">
+          <p className="mx-auto max-w-2xl text-lg text-gray-600 dark:text-gray-300">
             Специализирани в ръчно изработени мебели по поръчка в град София.
             Създаваме уникални решения за вашия дом или офис.
           </p>
-          <p className="mt-4 text-base text-gray-500">
+          <p className="mt-4 text-base text-gray-500 dark:text-gray-400">
             Майстор:{" "}
-            <span className="font-semibold text-[#003C70]">
+            <span className="font-semibold text-[#003C70] dark:text-blue-400">
               Андрей Къкрински
             </span>
           </p>
         </div>
       </div>
+
+      {/* Featured Creations Section */}
+      <FeaturedCreations />
     </div>
   );
 }
