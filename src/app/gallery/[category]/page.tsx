@@ -36,14 +36,19 @@ const GalleryGrid = dynamic(
   },
 );
 
-// Map URL slugs to display names
+// Map URL slugs to display names (using admin panel categories)
 const categoryMap: Record<string, string> = {
-  kitchens: "Кухни",
-  bedrooms: "Спални",
-  "living-rooms": "Хол",
-  offices: "Офиси",
-  "children-rooms": "Детски стаи",
-  wardrobes: "Гардероби",
+  кухни: "Кухни",
+  спални: "Спални",
+  хол: "Хол",
+  антре: "Антре",
+  гардероб: "Гардероб",
+  "детски-стаи": "Детски стаи",
+  кабинети: "Кабинети",
+  тоалетни: "Тоалетни",
+  тераси: "Тераси",
+  барбекю: "Барбекю",
+  други: "Други",
 };
 
 export default function CategoryPage() {
@@ -61,15 +66,7 @@ export default function CategoryPage() {
         <div className="mx-auto max-w-7xl px-4 py-8 sm:px-6 lg:px-8">
           {/* Breadcrumb */}
           <div className="mb-8">
-            <GalleryBreadcrumb />
-          </div>
-
-          {/* Page Header */}
-          <div className="mb-8">
-            <h1 className="text-3xl font-bold text-gray-900">{categoryName}</h1>
-            <p className="mt-2 text-lg text-gray-600">
-              Разгледайте нашата колекция от {categoryName.toLowerCase()}
-            </p>
+            <GalleryBreadcrumb category={categoryName} />
           </div>
 
           {/* Gallery Grid with category filter */}

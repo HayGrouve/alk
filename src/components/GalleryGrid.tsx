@@ -14,10 +14,11 @@ const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
   ssr: false,
   loading: () => <div className="hidden" />,
 });
-import { Search, Filter, X } from "lucide-react";
+import { Filter, X } from "lucide-react";
 import { Button } from "./ui/button";
-import { Input } from "./ui/input";
 import { getImageDisplayTitle } from "@/lib/title-generator";
+import { FURNITURE_CATEGORIES, getCategoryDisplayName } from "@/lib/categories";
+import { CategoryHero } from "./CategoryHero";
 import {
   Select,
   SelectContent,
@@ -33,7 +34,6 @@ interface GalleryGridProps {
 type ImageDoc = Doc<"images">;
 
 export function GalleryGrid({ initialCategory }: GalleryGridProps) {
-  const [searchTerm, setSearchTerm] = useState("");
   const [selectedCategory, setSelectedCategory] = useState(
     initialCategory ?? "",
   );
@@ -44,15 +44,11 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  // Get categories for filter dropdown
-  const categories = useQuery(api.images.getCategories) ?? [];
-
-  // Get paginated images
+  // Get paginated images (no search term needed)
   const paginatedData = useQuery(api.images.getImagesPaginated, {
     limit: 20,
     cursor: cursor ?? undefined,
     category: selectedCategory || undefined,
-    searchTerm: searchTerm || undefined,
   });
 
   // Update images when new data arrives
@@ -70,17 +66,13 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
     }
   }, [paginatedData, cursor]);
 
-  // Reset pagination when filters change
-  const handleFilterChange = useCallback(
-    (newCategory: string, newSearchTerm: string) => {
-      setSelectedCategory(newCategory);
-      setSearchTerm(newSearchTerm);
-      setCursor(null);
-      setAllImages([]);
-      setHasMore(true);
-    },
-    [],
-  );
+  // Reset pagination when category filter changes
+  const handleCategoryChange = useCallback((newCategory: string) => {
+    setSelectedCategory(newCategory);
+    setCursor(null);
+    setAllImages([]);
+    setHasMore(true);
+  }, []);
 
   // Load more images
   const loadMore = useCallback(() => {
@@ -120,67 +112,61 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
     setLightboxOpen(true);
   };
 
-  // Clear filters
-  const clearFilters = () => {
-    handleFilterChange("", "");
+  // Clear category filter
+  const clearCategoryFilter = () => {
+    handleCategoryChange("");
   };
 
   return (
     <div className="space-y-6">
-      {/* Search and Filter Controls */}
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div className="flex flex-1 gap-2">
-          <div className="relative flex-1">
-            <Search className="absolute top-1/2 left-3 h-4 w-4 -translate-y-1/2 text-gray-400" />
-            <Input
-              placeholder="Търсене в галерията..."
-              value={searchTerm}
-              onChange={(e) =>
-                handleFilterChange(selectedCategory, e.target.value)
-              }
-              className="pl-10"
-              aria-label="Търсене в галерията"
-              aria-describedby="search-help"
-            />
-            <div id="search-help" className="sr-only">
-              Търсете по име или описание на мебелите
+      {/* Category Filter Controls */}
+      <div className="rounded-lg border-2 border-[#003C70]/20 bg-gradient-to-r from-[#003C70]/5 to-[#0056b3]/5 p-4">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <div className="rounded-full bg-[#003C70] p-2">
+                <Filter className="h-4 w-4 text-white" />
+              </div>
+              <span className="text-sm font-semibold text-[#003C70]">
+                Филтрирай по категория:
+              </span>
             </div>
-          </div>
-          <Select
-            value={selectedCategory || "all"}
-            onValueChange={(value) =>
-              handleFilterChange(value === "all" ? "" : value, searchTerm)
-            }
-          >
-            <SelectTrigger
-              className="w-[180px]"
-              aria-label="Филтриране по категория"
+            <Select
+              value={selectedCategory || "all"}
+              onValueChange={(value) =>
+                handleCategoryChange(value === "all" ? "" : value)
+              }
             >
-              <SelectValue placeholder="Всички категории" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="all">Всички категории</SelectItem>
-              {categories.map((category) => (
-                <SelectItem key={category} value={category}>
-                  {category}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
-        </div>
+              <SelectTrigger
+                className="w-[200px] border-2 border-[#003C70]/30 bg-white shadow-sm hover:border-[#003C70]/50 focus:border-[#003C70] focus:ring-2 focus:ring-[#003C70]/20"
+                aria-label="Филтриране по категория"
+              >
+                <SelectValue placeholder="Всички категории" />
+              </SelectTrigger>
+              <SelectContent>
+                <SelectItem value="all">Всички категории</SelectItem>
+                {FURNITURE_CATEGORIES.map((category) => (
+                  <SelectItem key={category} value={category}>
+                    {category}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
 
-        {(selectedCategory || searchTerm) && (
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={clearFilters}
-            className="flex items-center gap-2"
-            aria-label="Изчисти всички филтри"
-          >
-            <X className="h-4 w-4" aria-hidden="true" />
-            Изчисти филтри
-          </Button>
-        )}
+          {selectedCategory && (
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={clearCategoryFilter}
+              className="flex items-center gap-2 border-[#003C70]/30 text-[#003C70] hover:bg-[#003C70] hover:text-white"
+              aria-label="Изчисти филтър за категория"
+            >
+              <X className="h-4 w-4" aria-hidden="true" />
+              Изчисти филтър
+            </Button>
+          )}
+        </div>
       </div>
 
       {/* Results Count */}
@@ -194,9 +180,13 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
             Показани {allImages.length}{" "}
             {allImages.length === 1 ? "снимка" : "снимки"}
             {selectedCategory && ` в категория "${selectedCategory}"`}
-            {searchTerm && ` за "${searchTerm}"`}
           </span>
         )}
+      </div>
+
+      {/* Dynamic Category Hero */}
+      <div className="mb-8">
+        <CategoryHero category={selectedCategory || undefined} />
       </div>
 
       {/* Gallery Grid */}
@@ -204,7 +194,7 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
         <div className="space-y-6">
           {/* Responsive Grid Layout */}
           <div
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 2xl:grid-cols-5"
+            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
             role="grid"
             aria-label="Галерия с изображения"
           >
@@ -223,13 +213,13 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
                 role="button"
                 aria-label={`Отвори ${getImageDisplayTitle(image, index)} в галерията`}
               >
-                {/* Image Container */}
-                <div className="aspect-square overflow-hidden">
+                {/* Image Container - 16:9 aspect ratio */}
+                <div className="aspect-video overflow-hidden">
                   <Image
                     src={image.url}
                     alt={image.name}
                     width={400}
-                    height={400}
+                    height={225}
                     className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-110"
                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, (max-width: 1280px) 33vw, (max-width: 1536px) 25vw, 20vw"
                     quality={85}
@@ -262,7 +252,7 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
                   <div className="space-y-2">
                     {image.category && (
                       <span className="inline-block rounded-full bg-[#003C70]/10 px-3 py-1 text-xs font-medium text-[#003C70]">
-                        {image.category}
+                        {getCategoryDisplayName(image.category)}
                       </span>
                     )}
 
@@ -287,8 +277,8 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
             Няма намерени снимки
           </h3>
           <p className="mt-2 text-gray-600">
-            {searchTerm || selectedCategory
-              ? "Опитайте с други критерии за търсене."
+            {selectedCategory
+              ? `Няма снимки в категория "${selectedCategory}".`
               : "Галерията е празна."}
           </p>
         </div>

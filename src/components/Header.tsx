@@ -4,16 +4,17 @@ import { Fragment, useState } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { Dialog, Transition } from "@headlessui/react";
+import { Home, Images, HelpCircle, Users, Mail } from "lucide-react";
 
 export function Header() {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   const navigation = [
-    { name: "Начало", href: "/" },
-    { name: "Галерия", href: "/gallery" },
-    { name: "Въпроси", href: "/faq" },
-    { name: "За нас", href: "/about" },
-    { name: "Контакти", href: "/contact" },
+    { name: "Начало", href: "/", icon: Home },
+    { name: "Галерия", href: "/gallery", icon: Images },
+    { name: "Въпроси", href: "/faq", icon: HelpCircle },
+    { name: "За нас", href: "/about", icon: Users },
+    { name: "Контакти", href: "/contact", icon: Mail },
   ];
 
   return (
@@ -44,15 +45,19 @@ export function Header() {
 
           {/* Desktop Navigation */}
           <nav className="hidden md:flex md:space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                href={item.href}
-                className="px-3 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70]"
-              >
-                {item.name}
-              </Link>
-            ))}
+            {navigation.map((item) => {
+              const IconComponent = item.icon;
+              return (
+                <Link
+                  key={item.name}
+                  href={item.href}
+                  className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70]"
+                >
+                  <IconComponent className="h-4 w-4" />
+                  {item.name}
+                </Link>
+              );
+            })}
           </nav>
 
           {/* Mobile menu button */}
@@ -157,16 +162,20 @@ export function Header() {
                       </div>
                       <div className="relative mt-6 flex-1 px-4 sm:px-6">
                         <nav className="space-y-1">
-                          {navigation.map((item) => (
-                            <Link
-                              key={item.name}
-                              href={item.href}
-                              className="block px-3 py-2 text-base font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70]"
-                              onClick={() => setIsMobileMenuOpen(false)}
-                            >
-                              {item.name}
-                            </Link>
-                          ))}
+                          {navigation.map((item) => {
+                            const IconComponent = item.icon;
+                            return (
+                              <Link
+                                key={item.name}
+                                href={item.href}
+                                className="flex items-center gap-3 px-3 py-2 text-base font-medium text-gray-700 transition-colors duration-200 hover:text-[#003C70]"
+                                onClick={() => setIsMobileMenuOpen(false)}
+                              >
+                                <IconComponent className="h-5 w-5" />
+                                {item.name}
+                              </Link>
+                            );
+                          })}
                         </nav>
                       </div>
                     </div>

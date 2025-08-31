@@ -78,16 +78,20 @@ export function GalleryBreadcrumb({
   const items: BreadcrumbItem[] = [{ name: "Галерия", href: "/gallery" }];
 
   if (category) {
+    // Convert category name to URL slug
+    const categorySlug = category.toLowerCase().replace(/\s+/g, "-");
     items.push({
       name: category,
-      href: `/gallery/${category.toLowerCase()}`,
+      href: `/gallery/${categorySlug}`,
+      current: !subcategory && !itemName, // Current if no subcategory or item
     });
   }
 
   if (subcategory) {
     items.push({
       name: subcategory,
-      href: `/gallery/${category?.toLowerCase()}/${subcategory.toLowerCase()}`,
+      href: `/gallery/${category?.toLowerCase().replace(/\s+/g, "-")}/${subcategory.toLowerCase()}`,
+      current: !itemName, // Current if no item
     });
   }
 
