@@ -37,6 +37,9 @@ export const metadata: Metadata = {
       },
     ],
   },
+  other: {
+    "fb:app_id": process.env.NEXT_PUBLIC_FB_APP_ID ?? "1234567890123456",
+  },
   twitter: {
     card: "summary_large_image",
     title: "a-el-key мебели | Ръчно изработени мебели в България",

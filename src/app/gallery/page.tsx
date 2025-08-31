@@ -40,6 +40,9 @@ export const metadata: Metadata = {
   keywords:
     "галерия мебели, кухни, спални, гардероби, мебели по поръчка, София",
   openGraph: {
+    type: "website",
+    url: "https://a-el-key.com/gallery",
+    siteName: "a-el-key мебели",
     title: "Галерия | a-el-key мебели",
     description:
       "Разгледайте нашата галерия от ръчно изработени мебели. Кухни, спални, гардероби и индивидуални проекти в различни стилове.",

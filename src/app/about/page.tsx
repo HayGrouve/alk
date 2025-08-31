@@ -13,6 +13,9 @@ export const metadata: Metadata = {
   keywords:
     "за нас, история, Андрей Къкрински, майстор, мебели, опит, работилница, Нови Искър, София, качество, традиция",
   openGraph: {
+    type: "website",
+    url: "https://a-el-key.com/about",
+    siteName: "a-el-key мебели",
     title: "За нас | a-el-key мебели",
     description:
       "Познайте историята на a-el-key мебели и майстора Андрей Къкрински. Над 15 години опит в създаването на уникални мебели по поръчка.",

@@ -11,6 +11,9 @@ export const metadata: Metadata = {
   keywords:
     "контакти, мебели, консултация, Нови Искър, София, телефон, имейл, Андрей Къкрински",
   openGraph: {
+    type: "website",
+    url: "https://a-el-key.com/contact",
+    siteName: "a-el-key мебели",
     title: "Контакти | a-el-key мебели",
     description:
       "Свържете се с нас за безплатна консултация по вашия мебелен проект. Работилница в Нови Искър, София.",
