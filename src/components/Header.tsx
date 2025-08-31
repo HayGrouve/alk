@@ -28,7 +28,7 @@ export function Header() {
                 alt="a-el-key мебели"
                 width={40}
                 height={40}
-                className="h-10 w-10"
+                className="h-[40px] w-[40px] object-contain"
                 priority
                 quality={90}
                 sizes="40px"

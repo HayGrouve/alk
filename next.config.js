@@ -29,6 +29,7 @@ const config = {
   },
   poweredByHeader: false,
   compress: true,
+  productionBrowserSourceMaps: true,
 };
 
 export default config;

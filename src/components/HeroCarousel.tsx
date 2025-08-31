@@ -179,7 +179,7 @@ export function HeroCarousel() {
   return (
     <div
       ref={carouselRef}
-      className="relative h-[70vh] min-h-[500px] w-full cursor-grab overflow-hidden bg-gray-100 active:cursor-grabbing"
+      className="relative h-[70vh] min-h-[500px] w-full overflow-hidden bg-gray-100"
       role="region"
       aria-label="Галерия с мебели"
       aria-live="polite"
