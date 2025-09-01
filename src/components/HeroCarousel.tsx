@@ -1,361 +1,186 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
-import Image from "next/image";
+import { useState, useEffect } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeftIcon, ChevronRightIcon } from "@heroicons/react/24/outline";
 
-// Dynamic carousel images based on existing files in /public/images/hero/
 const carouselImages = [
   {
     id: 1,
     src: "/images/hero/kitchen.jpg",
-    alt: "Модерна кухня с висококачествени материали",
+    alt: "Модерна кухня",
     title: "Модерни кухни",
     description: "Създаваме кухни, които отговарят на вашите нужди и стил",
   },
   {
     id: 2,
     src: "/images/hero/wardrobe.jpg",
-    alt: "Елегантен гардероб с интелигентно съхранение",
+    alt: "Елегантен гардероб",
     title: "Гардероби",
     description: "Максимално използване на пространството със стилен дизайн",
   },
   {
     id: 3,
     src: "/images/hero/bedroom.jpg",
-    alt: "Спалня с комфорт и елегантност",
+    alt: "Спалня",
     title: "Спални",
     description: "Персонализирани спални за най-добър отдих",
   },
   {
     id: 4,
     src: "/images/hero/kids-room.jpg",
-    alt: "Детска стая с игриво и функционално оформление",
+    alt: "Детска стая",
     title: "Детски стаи",
     description: "Създаваме вдъхновяващи пространства за най-малките",
   },
 ];
 
 export function HeroCarousel() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [isAutoPlaying, setIsAutoPlaying] = useState(true);
-  const [touchStart, setTouchStart] = useState<number | null>(null);
-  const [touchEnd, setTouchEnd] = useState<number | null>(null);
-  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false);
-  const carouselRef = useRef<HTMLDivElement>(null);
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
+  const [isFading, setIsFading] = useState(false);
 
-  // Check for reduced motion preference
+  const handleImageChange = (newIndex: number) => {
+    setIsFading(true);
+    setTimeout(() => {
+      setCurrentImageIndex(newIndex);
+      setIsFading(false);
+    }, 500); // Half of transition duration
+  };
+
+  // Auto-rotate images
   useEffect(() => {
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    setPrefersReducedMotion(mediaQuery.matches);
-
-    const handleChange = (e: MediaQueryListEvent) => {
-      setPrefersReducedMotion(e.matches);
-    };
-
-    mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
-  }, []);
-
-  // Auto-advance functionality (disabled if reduced motion is preferred)
-  useEffect(() => {
-    if (!isAutoPlaying || prefersReducedMotion) return;
-
     const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) =>
-        prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1,
-      );
-    }, 7000); // Change image every 7 seconds
+      handleImageChange((currentImageIndex + 1) % carouselImages.length);
+    }, 7000);
 
     return () => clearInterval(interval);
-  }, [isAutoPlaying, prefersReducedMotion]);
+  }, [currentImageIndex]);
 
-  // Keyboard navigation
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowLeft") {
-        e.preventDefault();
-        goToPrevious();
-      } else if (e.key === "ArrowRight") {
-        e.preventDefault();
-        goToNext();
-      } else if (e.key === "Home") {
-        e.preventDefault();
-        goToSlide(0);
-      } else if (e.key === "End") {
-        e.preventDefault();
-        goToSlide(carouselImages.length - 1);
-      }
-    };
+  const currentImage = carouselImages[currentImageIndex];
 
-    const carousel = carouselRef.current;
-    if (carousel) {
-      carousel.addEventListener("keydown", handleKeyDown);
-      return () => carousel.removeEventListener("keydown", handleKeyDown);
-    }
-  }, []);
-
-  const goToPrevious = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? carouselImages.length - 1 : prevIndex - 1,
-    );
-  };
-
-  const goToNext = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === carouselImages.length - 1 ? 0 : prevIndex + 1,
-    );
-  };
-
-  const goToSlide = (index: number) => {
-    setCurrentIndex(index);
-  };
-
-  // Touch gesture handlers
-  const handleTouchStart = (e: React.TouchEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.targetTouches[0]?.clientX ?? 0);
-  };
-
-  const handleTouchMove = (e: React.TouchEvent) => {
-    setTouchEnd(e.targetTouches[0]?.clientX ?? 0);
-  };
-
-  const handleTouchEnd = () => {
-    if (!touchStart || !touchEnd) return;
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      goToNext();
-    } else if (isRightSwipe) {
-      goToPrevious();
-    }
-  };
-
-  // Mouse drag handlers
-  const handleMouseDown = (e: React.MouseEvent) => {
-    setTouchEnd(null);
-    setTouchStart(e.clientX);
-  };
-
-  const handleMouseMove = (e: React.MouseEvent) => {
-    if (touchStart !== null) {
-      setTouchEnd(e.clientX);
-    }
-  };
-
-  const handleMouseUp = () => {
-    if (!touchStart || !touchEnd) return;
-
-    const distance = touchStart - touchEnd;
-    const isLeftSwipe = distance > 50;
-    const isRightSwipe = distance < -50;
-
-    if (isLeftSwipe) {
-      goToNext();
-    } else if (isRightSwipe) {
-      goToPrevious();
-    }
-  };
-
-  const currentImage = carouselImages[currentIndex];
-
+  // Safety check - this should never happen but TypeScript needs it
   if (!currentImage) {
-    return null;
+    return <div>Loading...</div>;
   }
 
   return (
-    <div
-      ref={carouselRef}
-      className="relative h-[70vh] min-h-[500px] w-full overflow-hidden bg-gray-100"
-      role="region"
-      aria-label="Галерия с мебели"
-      aria-live="polite"
-      tabIndex={0}
-      onTouchStart={handleTouchStart}
-      onTouchMove={handleTouchMove}
-      onTouchEnd={handleTouchEnd}
-      onMouseDown={handleMouseDown}
-      onMouseMove={handleMouseMove}
-      onMouseUp={handleMouseUp}
-      onMouseLeave={() => {
-        setTouchStart(null);
-        setTouchEnd(null);
-      }}
-      onKeyDown={(e) => {
-        if (e.key === "ArrowLeft") {
-          e.preventDefault();
-          goToPrevious();
-        } else if (e.key === "ArrowRight") {
-          e.preventDefault();
-          goToNext();
-        }
-      }}
-    >
-      {/* Main Image Container */}
-      <div className="relative h-full w-full">
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={currentIndex}
-            initial={
-              prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: 300 }
-            }
-            animate={{ opacity: 1, x: 0 }}
-            exit={
-              prefersReducedMotion ? { opacity: 0 } : { opacity: 0, x: -300 }
-            }
-            transition={
-              prefersReducedMotion
-                ? { duration: 0.1 }
-                : {
-                    duration: 0.6,
-                    ease: "easeInOut",
-                  }
-            }
-            className="absolute inset-0"
+    <div className="relative h-[70vh] min-h-[500px] w-full overflow-hidden">
+      {/* Background Image with enhanced overlay */}
+      <div
+        className={`absolute inset-0 bg-cover bg-center bg-no-repeat transition-opacity duration-1000 ${
+          isFading ? "opacity-0" : "opacity-100"
+        }`}
+        style={{
+          backgroundImage: `url(${currentImage.src})`,
+        }}
+      />
+
+      {/* Dark overlay for better text readability */}
+      <div
+        className={`absolute inset-0 bg-black/50 transition-opacity duration-1000 ${
+          isFading ? "opacity-0" : "opacity-100"
+        }`}
+      />
+
+      {/* Content with enhanced styling */}
+      <div
+        className={`absolute inset-0 flex items-center justify-center transition-opacity duration-1000 ${
+          isFading ? "opacity-0" : "opacity-100"
+        }`}
+      >
+        <div className="max-w-5xl px-6 text-center text-white">
+          {/* Enhanced title with text shadow */}
+          <h1 className="mb-6 text-5xl leading-tight font-bold drop-shadow-2xl md:text-7xl lg:text-8xl">
+            {currentImage.title}
+          </h1>
+
+          {/* Enhanced description with text shadow */}
+          <p className="mx-auto mb-10 max-w-3xl text-xl leading-relaxed text-gray-100 drop-shadow-lg md:text-2xl">
+            {currentImage.description}
+          </p>
+
+          {/* Enhanced CTA button without gradient */}
+          <Link
+            href="/gallery"
+            className="group inline-flex items-center gap-3 rounded-full bg-[#003C70] px-10 py-4 text-lg font-semibold text-white shadow-2xl transition-all duration-300 hover:bg-[#5eb665] hover:shadow-2xl active:scale-95"
           >
-            <Image
-              src={currentImage.src}
-              alt={currentImage.alt}
-              fill
-              className="cursor-default object-cover"
-              priority={currentIndex === 0}
-              sizes="100vw"
-              quality={85}
-              onError={(e) => {
-                // Fallback for missing images
-                const target = e.target as HTMLImageElement;
-                target.src = `https://via.placeholder.com/1200x800/003C70/ffffff?text=${encodeURIComponent(currentImage.title)}`;
-              }}
-            />
-
-            {/* Overlay */}
-            <div className="absolute inset-0 bg-black/40" />
-
-            {/* Content Overlay */}
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="max-w-4xl px-4 text-center text-white">
-                <motion.h1
-                  initial={
-                    prefersReducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: 30 }
-                  }
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={
-                    prefersReducedMotion
-                      ? { duration: 0.1 }
-                      : { delay: 0.2, duration: 0.6 }
-                  }
-                  className="mb-4 text-4xl font-bold md:text-6xl"
-                >
-                  {currentImage.title}
-                </motion.h1>
-                <motion.p
-                  initial={
-                    prefersReducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: 30 }
-                  }
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={
-                    prefersReducedMotion
-                      ? { duration: 0.1 }
-                      : { delay: 0.4, duration: 0.6 }
-                  }
-                  className="mx-auto mb-8 max-w-2xl text-lg md:text-xl"
-                >
-                  {currentImage.description}
-                </motion.p>
-                <motion.div
-                  initial={
-                    prefersReducedMotion
-                      ? { opacity: 0 }
-                      : { opacity: 0, y: 30 }
-                  }
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={
-                    prefersReducedMotion
-                      ? { duration: 0.1 }
-                      : { delay: 0.6, duration: 0.6 }
-                  }
-                >
-                  <Link
-                    href="/gallery"
-                    className="inline-block rounded-lg bg-[#003C70] px-8 py-3 text-lg font-semibold text-white transition-colors duration-200 hover:bg-[#003C70]/90"
-                  >
-                    Вижте нашите проекти
-                  </Link>
-                </motion.div>
-              </div>
-            </div>
-          </motion.div>
-        </AnimatePresence>
+            <span>Вижте нашите проекти</span>
+            <svg
+              className="h-5 w-5 transition-transform duration-300 group-hover:translate-x-1"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M17 8l4 4m0 0l-4 4m4-4H3"
+              />
+            </svg>
+          </Link>
+        </div>
       </div>
 
-      {/* Navigation Arrows - Hidden on mobile for cleaner experience */}
-      <button
-        onClick={goToPrevious}
-        onMouseEnter={() => setIsAutoPlaying(false)}
-        onMouseLeave={() => setIsAutoPlaying(true)}
-        className="absolute top-1/2 left-4 hidden -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none md:block"
-        aria-label={`Предишна снимка: ${carouselImages[currentIndex === 0 ? carouselImages.length - 1 : currentIndex - 1]?.title}`}
-      >
-        <ChevronLeftIcon className="h-6 w-6" />
-      </button>
-
-      <button
-        onClick={goToNext}
-        onMouseEnter={() => setIsAutoPlaying(false)}
-        onMouseLeave={() => setIsAutoPlaying(true)}
-        className="absolute top-1/2 right-4 hidden -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none md:block"
-        aria-label={`Следваща снимка: ${carouselImages[currentIndex === carouselImages.length - 1 ? 0 : currentIndex + 1]?.title}`}
-      >
-        <ChevronRightIcon className="h-6 w-6" />
-      </button>
-
-      {/* Dot Indicators */}
-      <div
-        className="absolute bottom-6 left-1/2 flex -translate-x-1/2 space-x-2"
-        role="tablist"
-        aria-label="Навигация между снимки"
-      >
-        {carouselImages.map((image, index) => (
+      {/* Enhanced dot indicators with project colors */}
+      <div className="absolute bottom-8 left-1/2 flex -translate-x-1/2 space-x-3">
+        {carouselImages.map((_, index) => (
           <button
             key={index}
-            onClick={() => goToSlide(index)}
-            onMouseEnter={() => setIsAutoPlaying(false)}
-            onMouseLeave={() => setIsAutoPlaying(true)}
-            className={`h-3 w-3 cursor-pointer rounded-full transition-colors duration-200 focus:ring-2 focus:ring-white/50 focus:outline-none ${
-              index === currentIndex
-                ? "bg-white"
-                : "bg-white/50 hover:bg-white/70"
+            onClick={() => handleImageChange(index)}
+            className={`h-4 w-4 rounded-full transition-all duration-300 ${
+              index === currentImageIndex
+                ? "bg-[#5eb665] shadow-lg shadow-[#5eb665]/50"
+                : "bg-white/40 hover:bg-white/60"
             }`}
-            role="tab"
-            aria-selected={index === currentIndex}
-            aria-label={`Снимка ${index + 1}: ${image.title}`}
-            aria-controls={`carousel-slide-${index}`}
           />
         ))}
       </div>
 
-      {/* Progress Bar */}
-      {!prefersReducedMotion && (
-        <div className="absolute bottom-0 left-0 h-1 w-full bg-white/20">
-          <motion.div
-            className="h-full bg-white"
-            initial={{ width: "0%" }}
-            animate={{ width: "100%" }}
-            transition={{ duration: 7, ease: "linear" }}
-            key={currentIndex}
+      {/* Enhanced navigation arrows with project styling */}
+      <button
+        onClick={() =>
+          handleImageChange(
+            (currentImageIndex - 1 + carouselImages.length) %
+              carouselImages.length,
+          )
+        }
+        className="group absolute top-1/2 left-6 hidden -translate-y-1/2 cursor-pointer rounded-full bg-white/10 p-4 text-white backdrop-blur-sm transition-all duration-300 hover:bg-[#5eb665] md:flex"
+      >
+        <svg
+          className="h-6 w-6 transition-transform duration-300 group-hover:-translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M15 19l-7-7 7-7"
           />
-        </div>
-      )}
+        </svg>
+      </button>
+
+      <button
+        onClick={() =>
+          handleImageChange((currentImageIndex + 1) % carouselImages.length)
+        }
+        className="group absolute top-1/2 right-6 hidden -translate-y-1/2 cursor-pointer rounded-full bg-white/10 p-4 text-white backdrop-blur-sm transition-all duration-300 hover:bg-[#5eb665] md:flex"
+      >
+        <svg
+          className="h-6 w-6 transition-transform duration-300 group-hover:translate-x-1"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            d="M9 5l7 7-7 7"
+          />
+        </svg>
+      </button>
     </div>
   );
 }

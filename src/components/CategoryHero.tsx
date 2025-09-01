@@ -42,7 +42,7 @@ export function CategoryHero({ category }: CategoryHeroProps) {
     : DEFAULT_DESCRIPTION;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#003C70] to-[#0056b3] px-4 py-6 text-white sm:px-8 sm:py-12">
+    <div className="relative hidden overflow-hidden rounded-2xl bg-gradient-to-br from-[#003C70] to-[#0056b3] px-4 py-6 text-white sm:block sm:px-8 sm:py-12">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="h-full w-full bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
