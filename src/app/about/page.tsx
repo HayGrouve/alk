@@ -3,22 +3,21 @@ import { Breadcrumb } from "@/components/Breadcrumb";
 import { AboutHero } from "@/components/AboutHero";
 import { AboutStory } from "@/components/AboutStory";
 import { AboutValues } from "@/components/AboutValues";
-import { AboutTeam } from "@/components/AboutTeam";
-import { AboutWorkshop } from "@/components/AboutWorkshop";
+import { AboutContact } from "@/components/AboutContact";
 
 export const metadata: Metadata = {
   title: "За нас | a-el-key мебели",
   description:
-    "Познайте историята на a-el-key мебели и майстора Андрей Къкрински. Над 15 години опит в създаването на уникални мебели по поръчка в Нови Искър, София.",
+    "Познайте a-el-key мебели и майстора Андрей Къкрински. Специализирани в създаването на уникални мебели по поръчка в Нови Искър, София.",
   keywords:
-    "за нас, история, Андрей Къкрински, майстор, мебели, опит, работилница, Нови Искър, София, качество, традиция",
+    "за нас, Андрей Къкрински, майстор, мебели, опит, качество, традиция, Нови Искър, София",
   openGraph: {
     type: "website",
     url: "https://a-el-key.com/about",
     siteName: "a-el-key мебели",
     title: "За нас | a-el-key мебели",
     description:
-      "Познайте историята на a-el-key мебели и майстора Андрей Къкрински. Над 15 години опит в създаването на уникални мебели по поръчка.",
+      "Познайте a-el-key мебели и майстора Андрей Къкрински. Специализирани в създаването на уникални мебели по поръчка.",
     images: [
       {
         url: "https://a-el-key.com/images/hero/bedroom.jpg",
@@ -56,14 +55,9 @@ export default function AboutPage() {
         <AboutValues />
       </div>
 
-      {/* About Team Section */}
+      {/* About Contact Section */}
       <div className="mt-16 lg:mt-24">
-        <AboutTeam />
-      </div>
-
-      {/* About Workshop Section */}
-      <div className="mt-16 lg:mt-24">
-        <AboutWorkshop />
+        <AboutContact />
       </div>
     </div>
   );

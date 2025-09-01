@@ -9,7 +9,7 @@ export function AboutHero() {
           За нас
         </h1>
         <p className="mt-4 text-lg text-gray-600">
-          Познайте историята и страстта зад a-el-key мебели
+          Запознайте се със страстта зад a-el-key мебели
         </p>
       </div>
 
@@ -19,30 +19,30 @@ export function AboutHero() {
         <div className="space-y-6">
           <div className="space-y-4">
             <h2 className="text-3xl font-bold text-[#003c70]">
-              Майстор Андрей Къкрински
+              Андрей Къкрински - майстор
             </h2>
             <p className="text-lg text-gray-600">
-              С над 15 години опит в мебелното производство, Андрей Къкрински е
-              създал a-el-key като символ на качество, прецизност и индивидуален
-              подход към всеки проект.
+              С над 15 години опит в мебелното производство, <br />
+              Андрей Къкрински е създал a-el-key като символ на качество,
+              прецизност и индивидуален подход към всеки проект.
             </p>
           </div>
 
           <div className="space-y-4">
-            <h3 className="text-xl font-semibold text-[#003c70]">
-              Нашата мисия
-            </h3>
+            <h3 className="text-xl font-semibold text-[#003c70]">Мисия</h3>
             <p className="text-gray-600">
               Да създаваме мебели, които не просто украсяват дома ви, а стават
               част от вашата история. Всеки проект е уникален, всеки детайл е
-              внимателно обмислен, всеки завършен мебел е израз на нашата страст
-              към занаята.
+              внимателно обмислен, всяка завършена мебел е израз на нашата
+              страст към занаята.
             </p>
           </div>
 
           <div className="flex flex-wrap gap-4">
             <div className="rounded-lg bg-[#5eb665] px-4 py-2 text-white">
-              <span className="text-sm font-medium">15+ години опит</span>
+              <span className="text-sm font-medium">
+                15+ години опит в мебелното производство
+              </span>
             </div>
             <div className="rounded-lg bg-[#5eb665] px-4 py-2 text-white">
               <span className="text-sm font-medium">100% ръчна изработка</span>
@@ -58,7 +58,7 @@ export function AboutHero() {
           <div className="aspect-[4/3] overflow-hidden rounded-lg">
             <Image
               src="/about-hero.jpg"
-              alt="Андрей Къкрински в работилницата"
+              alt="Андрей Къкрински"
               width={600}
               height={450}
               className="h-full w-full object-cover"
