@@ -298,12 +298,12 @@ export function HeroCarousel() {
         </AnimatePresence>
       </div>
 
-      {/* Navigation Arrows */}
+      {/* Navigation Arrows - Hidden on mobile for cleaner experience */}
       <button
         onClick={goToPrevious}
         onMouseEnter={() => setIsAutoPlaying(false)}
         onMouseLeave={() => setIsAutoPlaying(true)}
-        className="absolute top-1/2 left-4 -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none"
+        className="absolute top-1/2 left-4 hidden -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none md:block"
         aria-label={`Предишна снимка: ${carouselImages[currentIndex === 0 ? carouselImages.length - 1 : currentIndex - 1]?.title}`}
       >
         <ChevronLeftIcon className="h-6 w-6" />
@@ -313,7 +313,7 @@ export function HeroCarousel() {
         onClick={goToNext}
         onMouseEnter={() => setIsAutoPlaying(false)}
         onMouseLeave={() => setIsAutoPlaying(true)}
-        className="absolute top-1/2 right-4 -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none"
+        className="absolute top-1/2 right-4 hidden -translate-y-1/2 cursor-pointer rounded-full bg-white/20 p-2 text-white transition-colors duration-200 hover:bg-white/30 focus:ring-2 focus:ring-white/50 focus:outline-none md:block"
         aria-label={`Следваща снимка: ${carouselImages[currentIndex === carouselImages.length - 1 ? 0 : currentIndex + 1]?.title}`}
       >
         <ChevronRightIcon className="h-6 w-6" />

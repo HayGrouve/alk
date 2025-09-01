@@ -4,12 +4,20 @@ import { motion } from "framer-motion";
 import Image from "next/image";
 import Link from "next/link";
 import { useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useState, useMemo, Suspense } from "react";
 import { useQuery } from "convex/react";
 import { api } from "../../convex/_generated/api";
 import type { Doc } from "../../convex/_generated/dataModel";
 import { getCategoryDisplayName } from "@/lib/categories";
 import { getImageDisplayTitle } from "@/lib/title-generator";
+import dynamic from "next/dynamic";
+import "yet-another-react-lightbox/styles.css";
+
+// Lazy load the lightbox component
+const Lightbox = dynamic(() => import("yet-another-react-lightbox"), {
+  ssr: false,
+  loading: () => <div className="hidden" />,
+});
 
 // Helper function to create a slug from the image name
 function createSlug(name: string): string {
@@ -54,6 +62,26 @@ function FeaturedCreationsContent({
   isInView: boolean;
   featuredImages: Doc<"images">[] | undefined;
 }) {
+  // Lightbox state
+  const [lightboxOpen, setLightboxOpen] = useState(false);
+  const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  // Prepare lightbox slides
+  const lightboxSlides = useMemo(() => {
+    if (!featuredImages) return [];
+    return featuredImages.map((image) => ({
+      src: image.url,
+      alt: image.name,
+      title: image.description ?? image.name,
+    }));
+  }, [featuredImages]);
+
+  // Handle image click
+  const handleImageClick = (index: number) => {
+    setLightboxIndex(index);
+    setLightboxOpen(true);
+  };
+
   return (
     <section
       ref={ref}
@@ -119,12 +147,23 @@ function FeaturedCreationsContent({
                   ease: "easeOut",
                 }}
                 className="group flex h-full flex-col overflow-hidden rounded-lg bg-white shadow-md transition-all duration-300 hover:shadow-xl"
-                whileHover={{ y: -8 }}
                 role="article"
                 aria-labelledby={`creation-${image._id}-title`}
               >
-                {/* Image Container */}
-                <div className="relative h-64 overflow-hidden">
+                {/* Image Container - Clickable for fullscreen */}
+                <div
+                  className="relative h-64 cursor-pointer overflow-hidden"
+                  onClick={() => handleImageClick(index)}
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter" || e.key === " ") {
+                      e.preventDefault();
+                      handleImageClick(index);
+                    }
+                  }}
+                  tabIndex={0}
+                  role="button"
+                  aria-label={`Отвори ${getImageDisplayTitle(image, index)} в пълен екран`}
+                >
                   <motion.div
                     initial={{ scale: 1.1, opacity: 0.8 }}
                     animate={
@@ -155,6 +194,25 @@ function FeaturedCreationsContent({
                       <span className="text-sm font-semibold text-[#003C70]">
                         {image.year}
                       </span>
+                    </div>
+
+                    {/* Fullscreen indicator */}
+                    <div className="absolute inset-0 flex items-center justify-center bg-black/0 transition-colors duration-300 group-hover:bg-black/20">
+                      <div className="rounded-full bg-white/90 p-2 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                        <svg
+                          className="h-6 w-6 text-[#003C70]"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"
+                          />
+                        </svg>
+                      </div>
                     </div>
                   </motion.div>
                 </div>
@@ -255,6 +313,29 @@ function FeaturedCreationsContent({
           </motion.div>
         )}
       </div>
+
+      {/* Lightbox for fullscreen image viewing */}
+      <Suspense fallback={<div className="hidden" />}>
+        <Lightbox
+          open={lightboxOpen}
+          close={() => setLightboxOpen(false)}
+          index={lightboxIndex}
+          slides={lightboxSlides}
+          carousel={{
+            finite: true,
+          }}
+          render={{
+            buttonPrev:
+              featuredImages && featuredImages.length > 1
+                ? undefined
+                : () => null,
+            buttonNext:
+              featuredImages && featuredImages.length > 1
+                ? undefined
+                : () => null,
+          }}
+        />
+      </Suspense>
     </section>
   );
 }
