@@ -77,7 +77,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     { slug: "offices", name: "офиси", priority: 0.7 },
     { slug: "children-rooms", name: "детски стаи", priority: 0.7 },
     { slug: "wardrobes", name: "гардероби", priority: 0.8 },
-    { slug: "bathrooms", name: "бани", priority: 0.6 },
+    { slug: "toilets", name: "тоалетки", priority: 0.6 },
     { slug: "dining-rooms", name: "трапезарии", priority: 0.6 },
     { slug: "entrance-halls", name: "входове", priority: 0.6 },
     { slug: "custom-furniture", name: "индивидуални мебели", priority: 0.7 },

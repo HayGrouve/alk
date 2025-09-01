@@ -37,7 +37,7 @@ const GalleryGrid = dynamic(
 );
 
 // Map URL slugs to display names (using admin panel categories)
-const categoryMap: Record<string, string> = {
+const categoryMapping: Record<string, string> = {
   кухни: "Кухни",
   спални: "Спални",
   хол: "Хол",
@@ -45,16 +45,14 @@ const categoryMap: Record<string, string> = {
   гардероб: "Гардероб",
   "детски-стаи": "Детски стаи",
   кабинети: "Кабинети",
-  тоалетни: "Тоалетни",
-  тераси: "Тераси",
-  барбекю: "Барбекю",
+  тоалетки: "Тоалетки",
   други: "Други",
 };
 
 export default function CategoryPage() {
   const params = useParams();
   const categorySlug = params.category as string;
-  const categoryName = categoryMap[categorySlug];
+  const categoryName = categoryMapping[categorySlug];
 
   if (!categoryName) {
     notFound();
