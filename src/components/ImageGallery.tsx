@@ -74,12 +74,12 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
   }
 
   return (
-    <div className="rounded-lg bg-white p-6 shadow-md">
-      <h2 className="mb-4 text-xl font-semibold text-gray-800">
+    <div className="rounded-lg bg-white p-4 shadow-md sm:p-6">
+      <h2 className="mb-3 text-lg font-semibold text-gray-800 sm:mb-4 sm:text-xl">
         Качени изображения в базата данни ({images.length})
       </h2>
 
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
         {images.map((image) => (
           <div key={image._id} className="overflow-hidden rounded-lg border">
             <Image
@@ -88,7 +88,7 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
               width={400}
               height={192}
               className="h-48 w-full object-cover"
-              sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 400px"
+              sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 400px"
               quality={80}
               loading="lazy"
             />
@@ -127,7 +127,7 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
                     size="sm"
                     variant="outline"
                     onClick={() => onEditImage(image)}
-                    className="flex-1"
+                    className="min-h-[44px] flex-1 touch-manipulation"
                   >
                     <Edit className="mr-1 h-3 w-3" />
                     Редактирай
@@ -138,7 +138,7 @@ export function ImageGallery({ onEditImage }: ImageGalleryProps) {
                   variant="destructive"
                   onClick={() => handleDeleteImage(image)}
                   disabled={deletingImageId === image._id}
-                  className="flex-1"
+                  className="min-h-[44px] flex-1 touch-manipulation"
                 >
                   <Trash2 className="mr-1 h-3 w-3" />
                   {deletingImageId === image._id ? "Изтриване..." : "Изтрий"}

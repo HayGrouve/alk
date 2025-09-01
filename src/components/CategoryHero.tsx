@@ -46,7 +46,7 @@ export function CategoryHero({ category }: CategoryHeroProps) {
     : DEFAULT_DESCRIPTION;
 
   return (
-    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#003C70] to-[#0056b3] px-8 py-12 text-white">
+    <div className="relative overflow-hidden rounded-2xl bg-gradient-to-br from-[#003C70] to-[#0056b3] px-4 py-6 text-white sm:px-8 sm:py-12">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-10">
         <div className="h-full w-full bg-[url('data:image/svg+xml,%3Csvg%20width%3D%2260%22%20height%3D%2260%22%20viewBox%3D%220%200%2060%2060%22%20xmlns%3D%22http%3A//www.w3.org/2000/svg%22%3E%3Cg%20fill%3D%22none%22%20fill-rule%3D%22evenodd%22%3E%3Cg%20fill%3D%22%23ffffff%22%20fill-opacity%3D%220.1%22%3E%3Ccircle%20cx%3D%2230%22%20cy%3D%2230%22%20r%3D%222%22/%3E%3C/g%3E%3C/g%3E%3C/svg%3E')]"></div>
@@ -55,15 +55,16 @@ export function CategoryHero({ category }: CategoryHeroProps) {
       {/* Content */}
       <div className="relative z-10">
         <div className="mx-auto max-w-4xl text-center">
-          <h1 className="mb-4 text-4xl font-bold tracking-tight sm:text-5xl lg:text-6xl">
+          <h1 className="mb-2 text-2xl font-bold tracking-tight sm:mb-4 sm:text-4xl sm:text-5xl lg:text-6xl">
             {displayCategory}
           </h1>
-          <p className="mx-auto mb-8 max-w-2xl text-lg leading-relaxed text-blue-100 sm:text-xl">
+          {/* Hide description on mobile for better UX */}
+          <p className="mx-auto mb-4 hidden max-w-2xl text-lg leading-relaxed text-blue-100 sm:mb-8 sm:block sm:text-xl">
             {description}
           </p>
 
-          {/* Category Stats */}
-          <div className="flex flex-wrap justify-center gap-6 text-sm text-blue-200">
+          {/* Category Stats - Hidden on mobile */}
+          <div className="hidden flex-wrap justify-center gap-6 text-sm text-blue-200 sm:flex">
             <div className="flex items-center gap-2">
               <div className="h-2 w-2 rounded-full bg-blue-300"></div>
               <span>Ръчно изработени</span>

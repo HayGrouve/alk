@@ -84,19 +84,20 @@ function AdminPageContent() {
 
   return (
     <ConvexClientProvider>
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="mx-auto max-w-4xl px-4">
-          <div className="mb-8 flex items-center justify-between">
-            <h1 className="text-3xl font-bold text-[#003C70]">
+      <div className="min-h-screen bg-gray-50 py-4 sm:py-8">
+        <div className="mx-auto max-w-4xl px-3 sm:px-4">
+          {/* Header with improved mobile layout */}
+          <div className="mb-6 flex flex-col gap-4 sm:mb-8 sm:flex-row sm:items-center sm:justify-between">
+            <h1 className="text-2xl font-bold text-[#003C70] sm:text-3xl">
               Администраторски панел
             </h1>
-            <div className="flex items-center space-x-4">
+            <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:space-x-4">
               <span className="text-sm text-gray-600">
                 Здравейте, {user?.id}
               </span>
               <button
                 onClick={logout}
-                className="cursor-pointer rounded-md bg-red-600 px-3 py-2 text-sm text-white hover:bg-red-700"
+                className="min-h-[44px] w-full cursor-pointer rounded-md bg-red-600 px-4 py-2 text-sm text-white transition-colors hover:bg-red-700 focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:outline-none sm:w-auto"
               >
                 Изход
               </button>
@@ -104,16 +105,16 @@ function AdminPageContent() {
           </div>
 
           {/* System Monitoring */}
-          <div className="mb-8">
+          <div className="mb-6 sm:mb-8">
             <MonitoringDashboard />
           </div>
 
-          <h2 className="mb-6 text-2xl font-semibold text-[#003C70]">
+          <h2 className="mb-4 text-xl font-semibold text-[#003C70] sm:mb-6 sm:text-2xl">
             Качване на изображения
           </h2>
 
-          <div className="mb-8 rounded-lg bg-white p-6 shadow-md">
-            <h2 className="mb-4 text-xl font-semibold text-gray-800">
+          <div className="mb-6 rounded-lg bg-white p-4 shadow-md sm:mb-8 sm:p-6">
+            <h2 className="mb-3 text-lg font-semibold text-gray-800 sm:mb-4 sm:text-xl">
               Качи ново изображение
             </h2>
 
@@ -156,7 +157,7 @@ function AdminPageContent() {
           {/* Display images from Convex database */}
           <Suspense
             fallback={
-              <div className="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3">
+              <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
                 {Array.from({ length: 6 }).map((_, i) => (
                   <div
                     key={i}
@@ -169,23 +170,23 @@ function AdminPageContent() {
             <ImageGallery onEditImage={setEditingImage} />
           </Suspense>
         </div>
-      </div>
 
-      {/* Image Metadata Editor Modal */}
-      {editingImage && (
-        <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4">
-          <Suspense
-            fallback={
-              <div className="h-96 w-full max-w-2xl animate-pulse rounded-lg bg-gray-200"></div>
-            }
-          >
-            <ImageMetadataEditor
-              image={editingImage}
-              onClose={() => setEditingImage(null)}
-            />
-          </Suspense>
-        </div>
-      )}
+        {/* Image Metadata Editor Modal */}
+        {editingImage && (
+          <div className="bg-opacity-50 fixed inset-0 z-50 flex items-center justify-center bg-black p-4">
+            <Suspense
+              fallback={
+                <div className="h-96 w-full max-w-2xl animate-pulse rounded-lg bg-gray-200"></div>
+              }
+            >
+              <ImageMetadataEditor
+                image={editingImage}
+                onClose={() => setEditingImage(null)}
+              />
+            </Suspense>
+          </div>
+        )}
+      </div>
     </ConvexClientProvider>
   );
 }

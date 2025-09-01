@@ -1,8 +1,9 @@
-import { type Metadata } from "next";
-import { GalleryBreadcrumb } from "@/components/Breadcrumb";
 import { ConvexClientProvider } from "@/components/ConvexClientProvider";
 import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { pageMetadata } from "@/lib/seo-config";
+import type { Metadata } from "next";
+import { GalleryBreadcrumb } from "@/components/Breadcrumb";
 
 // Lazy load the heavy GalleryGrid component with virtualization
 const GalleryGrid = dynamic(
@@ -33,32 +34,7 @@ const GalleryGrid = dynamic(
   },
 );
 
-export const metadata: Metadata = {
-  title: "Галерия | a-el-key мебели",
-  description:
-    "Разгледайте нашата галерия от ръчно изработени мебели. Кухни, спални, гардероби и индивидуални проекти в различни стилове.",
-  keywords:
-    "галерия мебели, кухни, спални, гардероби, мебели по поръчка, София",
-  openGraph: {
-    type: "website",
-    url: "https://a-el-key.com/gallery",
-    siteName: "a-el-key мебели",
-    title: "Галерия | a-el-key мебели",
-    description:
-      "Разгледайте нашата галерия от ръчно изработени мебели. Кухни, спални, гардероби и индивидуални проекти в различни стилове.",
-    images: [
-      {
-        url: "https://a-el-key.com/images/hero/kids-room.jpg",
-        width: 1200,
-        height: 630,
-        alt: "Галерия от ръчно изработени мебели - a-el-key",
-      },
-    ],
-  },
-  alternates: {
-    canonical: "https://a-el-key.com/gallery",
-  },
-};
+export const metadata: Metadata = pageMetadata.gallery;
 
 export default function GalleryPage() {
   return (

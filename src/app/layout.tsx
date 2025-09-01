@@ -2,13 +2,12 @@ import "@/styles/globals.css";
 
 import { type Metadata } from "next";
 import { Geist } from "next/font/google";
-import Script from "next/script";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
-import { structuredData } from "@/lib/seo";
 import { Analytics } from "@/components/Analytics";
 import { PerformanceMonitor } from "@/components/PerformanceMonitor";
 import { ClientProviders } from "@/components/ClientProviders";
+import { structuredData } from "@/lib/seo-config";
 
 export const metadata: Metadata = {
   title: "a-el-key мебели | Ръчно изработени мебели в България",
@@ -20,6 +19,7 @@ export const metadata: Metadata = {
   creator: "Андрей Къкрински",
   publisher: "a-el-key мебели",
   robots: "index, follow",
+  metadataBase: new URL("https://a-el-key.com"),
   openGraph: {
     type: "website",
     locale: "bg_BG",
@@ -54,6 +54,10 @@ export const metadata: Metadata = {
   manifest: "/site.webmanifest",
   alternates: {
     canonical: "https://a-el-key.com",
+    languages: {
+      "bg": "https://a-el-key.com",
+      "x-default": "https://a-el-key.com",
+    },
   },
 };
 
@@ -68,26 +72,27 @@ export default function RootLayout({
   return (
     <html lang="bg" className={`${geist.variable}`} suppressHydrationWarning>
       <head>
-        {/* Structured Data */}
-        <Script
-          id="organization-schema"
+        {/* Bulgarian language targeting */}
+        <link rel="alternate" hrefLang="bg" href="https://a-el-key.com" />
+        <link rel="alternate" hrefLang="x-default" href="https://a-el-key.com" />
+        
+        {/* Structured Data - now loaded via metadata API instead of Script tags */}
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData.organization),
           }}
         />
-        <Script
-          id="person-schema"
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
             __html: JSON.stringify(structuredData.person),
           }}
         />
-        <Script
-          id="website-schema"
+        <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData.website),
+            __html: JSON.stringify(structuredData.localBusiness),
           }}
         />
       </head>

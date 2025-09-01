@@ -118,11 +118,11 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4 sm:space-y-6">
       {/* Category Filter Controls */}
-      <div className="rounded-lg border-2 border-[#003C70]/20 bg-gradient-to-r from-[#003C70]/5 to-[#0056b3]/5 p-4">
-        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-          <div className="flex items-center gap-4">
+      <div className="rounded-lg border-2 border-[#003C70]/20 bg-gradient-to-r from-[#003C70]/5 to-[#0056b3]/5 p-3 sm:p-4">
+        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between sm:gap-4">
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-4">
             <div className="flex items-center gap-2">
               <div className="rounded-full bg-[#003C70] p-2">
                 <Filter className="h-4 w-4 text-white" />
@@ -138,7 +138,7 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
               }
             >
               <SelectTrigger
-                className="w-[200px] border-2 border-[#003C70]/30 bg-white shadow-sm hover:border-[#003C70]/50 focus:border-[#003C70] focus:ring-2 focus:ring-[#003C70]/20"
+                className="w-full border-2 border-[#003C70]/30 bg-white shadow-sm hover:border-[#003C70]/50 focus:border-[#003C70] focus:ring-2 focus:ring-[#003C70]/20 sm:w-[200px]"
                 aria-label="Филтриране по категория"
               >
                 <SelectValue placeholder="Всички категории" />
@@ -184,17 +184,17 @@ export function GalleryGrid({ initialCategory }: GalleryGridProps) {
         )}
       </div>
 
-      {/* Dynamic Category Hero */}
-      <div className="mb-8">
+      {/* Dynamic Category Hero - Reduced margin on mobile */}
+      <div className="mb-4 sm:mb-8">
         <CategoryHero category={selectedCategory || undefined} />
       </div>
 
       {/* Gallery Grid */}
       {allImages.length > 0 ? (
-        <div className="space-y-6">
+        <div className="space-y-4 sm:space-y-6">
           {/* Responsive Grid Layout */}
           <div
-            className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3"
+            className="grid grid-cols-1 gap-4 sm:grid-cols-2 sm:gap-6 lg:grid-cols-3"
             role="grid"
             aria-label="Галерия с изображения"
           >

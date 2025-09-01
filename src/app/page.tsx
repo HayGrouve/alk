@@ -1,22 +1,10 @@
-import { type Metadata } from "next";
-import dynamic from "next/dynamic";
 import { Suspense } from "react";
+import { type Metadata } from "next";
+import { HeroCarousel } from "@/components/HeroCarousel";
+import { pageMetadata } from "@/lib/seo-config";
+import dynamic from "next/dynamic";
 
-// Lazy load heavy components with animations
-const HeroCarousel = dynamic(
-  () =>
-    import("@/components/HeroCarousel").then((mod) => ({
-      default: mod.HeroCarousel,
-    })),
-  {
-    loading: () => (
-      <div className="flex h-[600px] items-center justify-center bg-gradient-to-r from-[#003C70] to-[#5EB665]">
-        <div className="text-xl text-white">Зареждане...</div>
-      </div>
-    ),
-  },
-);
-
+// Lazy load the FeaturedCreations component for better performance
 const FeaturedCreationsWrapper = dynamic(
   () =>
     import("@/components/FeaturedCreationsWrapper").then((mod) => ({
@@ -44,29 +32,7 @@ const FeaturedCreationsWrapper = dynamic(
   },
 );
 
-export const metadata: Metadata = {
-  title: "a-el-key мебели | Ръчно изработени мебели в България",
-  description:
-    "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
-  keywords:
-    "мебели по поръчка, София, България, кухни, спални, гардероби, ръчно изработени мебели, Андрей Къкрински",
-  openGraph: {
-    type: "website",
-    url: "https://a-el-key.com",
-    siteName: "a-el-key мебели",
-    title: "a-el-key мебели | Ръчно изработени мебели в България",
-    description:
-      "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
-    images: [
-      {
-        url: "https://a-el-key.com/images/hero/kitchen.jpg",
-        width: 1200,
-        height: 630,
-        alt: "a-el-key мебели - Ръчно изработени мебели в България",
-      },
-    ],
-  },
-};
+export const metadata: Metadata = pageMetadata.home;
 
 export default function HomePage() {
   return (
