@@ -38,7 +38,9 @@ export function Header() {
                 <span className="text-xl font-bold text-[#003C70]">
                   a-el-key
                 </span>
-                <span className="text-xs text-gray-500">Андрей Къкрински</span>
+                <span className="text-xs text-gray-500">
+                  Където мебелите са изскуство
+                </span>
               </div>
             </Link>
           </div>

@@ -12,9 +12,9 @@ import { structuredData } from "@/lib/seo-config";
 export const metadata: Metadata = {
   title: "a-el-key мебели | Ръчно изработени мебели в България",
   description:
-    "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
+    "Професионално изработване на мебели по поръчка в София и цяла България. Кухня, спалня, гардероб и индивидуални проекти от Андрей Къкрински.",
   keywords:
-    "мебели, мебели по поръчка, София, България, кухни, спални, гардероби, ръчно изработени мебели, Андрей Къкрински, a-el-key",
+    "мебели, мебели по поръчка, София, България, кухня, спалня, гардероб, ръчно изработени мебели, Андрей Къкрински, a-el-key",
   authors: [{ name: "Андрей Къкрински" }],
   creator: "Андрей Къкрински",
   publisher: "a-el-key мебели",
@@ -27,7 +27,7 @@ export const metadata: Metadata = {
     siteName: "a-el-key мебели",
     title: "a-el-key мебели | Ръчно изработени мебели в България",
     description:
-      "Професионално изработване на мебели по поръчка в София и цяла България. Кухни, спални, гардероби и индивидуални проекти от Андрей Къкрински.",
+      "Професионално изработване на мебели по поръчка в София и цяла България. Кухня, спалня, гардероб и индивидуални проекти от Андрей Къкрински.",
     images: [
       {
         url: "https://a-el-key.com/images/hero/kitchen.jpg",
@@ -55,7 +55,7 @@ export const metadata: Metadata = {
   alternates: {
     canonical: "https://a-el-key.com",
     languages: {
-      "bg": "https://a-el-key.com",
+      bg: "https://a-el-key.com",
       "x-default": "https://a-el-key.com",
     },
   },
@@ -74,8 +74,12 @@ export default function RootLayout({
       <head>
         {/* Bulgarian language targeting */}
         <link rel="alternate" hrefLang="bg" href="https://a-el-key.com" />
-        <link rel="alternate" hrefLang="x-default" href="https://a-el-key.com" />
-        
+        <link
+          rel="alternate"
+          hrefLang="x-default"
+          href="https://a-el-key.com"
+        />
+
         {/* Structured Data - now loaded via metadata API instead of Script tags */}
         <script
           type="application/ld+json"

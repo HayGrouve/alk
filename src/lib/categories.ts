@@ -6,7 +6,6 @@ export const FURNITURE_CATEGORIES = [
   "Антре",
   "Гардероб",
   "Детски стаи",
-  "Кабинети",
   "Тоалетки",
   "Други",
 ] as const;
