@@ -30,6 +30,7 @@ export function ImageMetadataEditor({
   onClose,
 }: ImageMetadataEditorProps) {
   const [formData, setFormData] = useState({
+    title: image.title ?? "",
     category: image.category ?? "",
     description: image.description ?? "",
     year: image.year ?? new Date().getFullYear(),
@@ -38,6 +39,7 @@ export function ImageMetadataEditor({
   });
 
   const updateImage = useMutation(api.images.updateImageMetadata);
+  const [confirmSlugChange, setConfirmSlugChange] = useState(false);
   const featuredImages = useQuery(api.images.getFeaturedImages);
   const [featuredCount, setFeaturedCount] = useState(0);
   const [canBeFeatured, setCanBeFeatured] = useState(true);
@@ -72,6 +74,8 @@ export function ImageMetadataEditor({
     try {
       await updateImage({
         id: image._id,
+        title: formData.title.trim(),
+        confirmSlugChange: confirmSlugChange || undefined,
         category: formData.category || undefined,
         description: formData.description || undefined,
         year: formData.year,
@@ -102,6 +106,30 @@ export function ImageMetadataEditor({
       </CardHeader>
       <CardContent>
         <form onSubmit={handleSubmit} className="space-y-4">
+          <div>
+            <Label htmlFor="title">Име на продукт</Label>
+            <Input
+              id="title"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, title: e.target.value }))
+              }
+              placeholder="Например: Кухненски шкаф с масивен плот"
+              required
+            />
+            <div className="mt-2 text-xs text-gray-500">
+              Промяната на името може да промени адреса на страницата на
+              продукта. Отметнете „Промени адреса (slug)“ ако желаете нов адрес.
+            </div>
+            <div className="mt-2 flex items-center space-x-2">
+              <Switch
+                id="confirmSlugChange"
+                checked={confirmSlugChange}
+                onCheckedChange={setConfirmSlugChange}
+              />
+              <Label htmlFor="confirmSlugChange">Промени адреса (slug)</Label>
+            </div>
+          </div>
           <div>
             <Label htmlFor="category">Категория</Label>
             <Select

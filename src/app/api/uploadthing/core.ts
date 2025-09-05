@@ -19,7 +19,7 @@ export const ourFileRouter = {
       // In production, you might want to add authentication
       return {};
     })
-    .onUploadComplete(async ({ file }) => {
+    .onUploadComplete(async ({ file, metadata }) => {
       // This code RUNS ON YOUR SERVER after upload
 
       try {
@@ -33,6 +33,7 @@ export const ourFileRouter = {
           url: file.ufsUrl,
           name: file.name,
           size: file.size,
+          title: (file.name || "").replace(/\.[^.]+$/, ""),
           width: metadata.width ?? undefined,
           height: metadata.height ?? undefined,
           format: metadata.format ?? undefined,

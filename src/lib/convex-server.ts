@@ -20,6 +20,7 @@ export async function storeImageMetadata(data: {
   url: string;
   name: string;
   size: number;
+  title?: string;
   width?: number;
   height?: number;
   format?: string;

@@ -6,6 +6,10 @@ export default defineSchema({
     url: v.string(),
     name: v.string(),
     size: v.number(),
+    // Human-friendly product title (Bulgarian supported)
+    title: v.optional(v.string()),
+    // URL-safe slug derived from title; unique per product
+    slug: v.optional(v.string()),
     width: v.optional(v.number()),
     height: v.optional(v.number()),
     format: v.optional(v.string()),
@@ -18,5 +22,6 @@ export default defineSchema({
   })
     .index("by_category", ["category"])
     .index("by_featured", ["isFeatured"])
-    .index("by_created_at", ["createdAt"]),
+    .index("by_created_at", ["createdAt"])
+    .index("by_slug", ["slug"]),
 });
