@@ -19,7 +19,7 @@ export const ourFileRouter = {
       // In production, you might want to add authentication
       return {};
     })
-    .onUploadComplete(async ({ file, metadata }) => {
+    .onUploadComplete(async ({ file, metadata: _metadata }) => {
       // This code RUNS ON YOUR SERVER after upload
 
       try {

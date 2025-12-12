@@ -10,10 +10,14 @@ async function fetchProduct(slug: string) {
   const convexUrl = process.env.NEXT_PUBLIC_CONVEX_URL;
   if (!convexUrl) throw new Error("Missing NEXT_PUBLIC_CONVEX_URL");
   const client = new ConvexHttpClient(convexUrl);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const item = await (client as any).query((api as any).images.getImageBySlug, {
-    slug,
-  });
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-assignment, @typescript-eslint/no-unsafe-member-access, @typescript-eslint/no-unsafe-call
+  const item = await (client as any).query(
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/no-unsafe-member-access
+    (api as any).images.getImageBySlug,
+    {
+      slug,
+    },
+  );
   return item as {
     url: string;
     title?: string;
@@ -28,13 +32,14 @@ async function fetchProduct(slug: string) {
 export async function generateMetadata({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
-  const item = await fetchProduct(params.slug);
+  const { slug } = await params;
+  const item = await fetchProduct(slug);
   if (!item) return {};
   const title = item.title ?? "Продукт";
   const description = item.description ?? "Индивидуални мебели по поръчка";
-  const url = `https://a-el-key.com/p/${params.slug}`;
+  const url = `https://a-el-key.com/p/${slug}`;
   return {
     title: `${title} | a-el-key мебели`,
     description,
@@ -56,9 +61,10 @@ export async function generateMetadata({
 export default async function ProductPage({
   params,
 }: {
-  params: { slug: string };
+  params: Promise<{ slug: string }>;
 }) {
-  const item = await fetchProduct(params.slug);
+  const { slug } = await params;
+  const item = await fetchProduct(slug);
   if (!item) notFound();
 
   const title = item.title ?? "Продукт";
